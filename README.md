@@ -1,7 +1,7 @@
 # Modder's Gearbox
 A Fortresscraft Evolved Modding Library.
 
-Master Branch Status : [![Build status](https://pacas00.visualstudio.com/Modders%20Gearbox/_apis/build/status/Modders%20Gearbox-CI)](https://pacas00.visualstudio.com/Modders%20Gearbox/_build/latest?definitionId=12)
+Release Branch Status : [![Build status](https://pacas00.visualstudio.com/Modders%20Gearbox/_apis/build/status/Modders%20Gearbox-CI)](https://pacas00.visualstudio.com/Modders%20Gearbox/_build/latest?definitionId=12)
 
 Modder's Gearbox is a modders resource library that intends to bring additional modding functionality to FCE modders.
 
