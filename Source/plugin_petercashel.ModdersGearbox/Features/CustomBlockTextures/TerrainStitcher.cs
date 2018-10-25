@@ -389,84 +389,91 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 			int slot = -1;
 			foreach (string key in dictionary.Keys)
 			{
-				bNeedsNewID = key.Contains(".");
-
-				//Entry to set.
-				TerrainDataEntry entry = TerrainData.mEntriesByKey[key];
-
-				if (bNeedsNewID)
+				try
 				{
-					slot = NextTextureSpriteID++;
-				}
-				else
-				{
-					switch (textureSide)
+					bNeedsNewID = key.Contains(".");
+
+					//Entry to set.
+					TerrainDataEntry entry = TerrainData.mEntriesByKey[key];
+
+					if (bNeedsNewID)
 					{
-						case TextureSide.All:
-							{
-								slot = entry.TopTexture;
-								break;
-							}
-						case TextureSide.Top:
-							{
-								slot = entry.TopTexture;
-								break;
-							}
-						case TextureSide.Side:
-							{
-								slot = entry.SideTexture;
-								break;
-							}
-						case TextureSide.Bottom:
-							{
-								slot = entry.BottomTexture;
-								break;
-							}
+						slot = NextTextureSpriteID++;
+					}
+					else
+					{
+						switch (textureSide)
+						{
+							case TextureSide.All:
+								{
+									slot = entry.TopTexture;
+									break;
+								}
+							case TextureSide.Top:
+								{
+									slot = entry.TopTexture;
+									break;
+								}
+							case TextureSide.Side:
+								{
+									slot = entry.SideTexture;
+									break;
+								}
+							case TextureSide.Bottom:
+								{
+									slot = entry.BottomTexture;
+									break;
+								}
+						}
+					}
+
+					Rect target = SegmentMeshCreator.instance.mMeshRenderer.segmentUVCoord.GetSprite(slot);
+
+					Texture2D newSprite = LoadPNG(dictionary[key], 146, 146);
+
+					Texture2D targetTexture = (textureType == TextureType.Diffuse ? diffuseTexture : normalTexture);
+
+					int ypos = (targetTexture.height) - ((int) target.y - 9);
+
+					//Correction.
+					ypos = ypos - 146;
+
+					targetTexture.SetPixels((int) target.x - 9, ypos, 146, 146, newSprite.GetPixels());
+
+
+					if (bNeedsNewID)
+					{
+						//Time to go set IDs
+						switch (textureSide)
+						{
+							case TextureSide.All:
+								{
+									entry.TopTexture = slot;
+									entry.SideTexture = slot;
+									entry.BottomTexture = slot;
+									break;
+								}
+							case TextureSide.Top:
+								{
+									entry.TopTexture = slot;
+									break;
+								}
+							case TextureSide.Side:
+								{
+									entry.SideTexture = slot;
+									break;
+								}
+							case TextureSide.Bottom:
+								{
+									entry.BottomTexture = slot;
+									break;
+								}
+						}
 					}
 				}
-
-				Rect target = SegmentMeshCreator.instance.mMeshRenderer.segmentUVCoord.GetSprite(slot);
-
-				Texture2D newSprite = LoadPNG(dictionary[key], 146, 146);
-
-				Texture2D targetTexture = (textureType == TextureType.Diffuse ? diffuseTexture : normalTexture);
-
-				int ypos = (targetTexture.height) - ((int)target.y - 9);
-
-				//Correction.
-				ypos = ypos - 146;
-
-				targetTexture.SetPixels((int)target.x - 9, ypos, 146, 146, newSprite.GetPixels());
-
-
-				if (bNeedsNewID)
+				catch (Exception exception)
 				{
-					//Time to go set IDs
-					switch (textureSide)
-					{
-						case TextureSide.All:
-							{
-								entry.TopTexture = slot;
-								entry.SideTexture = slot;
-								entry.BottomTexture = slot;
-								break;
-							}
-						case TextureSide.Top:
-							{
-								entry.TopTexture = slot;
-								break;
-							}
-						case TextureSide.Side:
-							{
-								entry.SideTexture = slot;
-								break;
-							}
-						case TextureSide.Bottom:
-							{
-								entry.BottomTexture = slot;
-								break;
-							}
-					}
+					Debug.LogException(exception);
 				}
 			}
 
