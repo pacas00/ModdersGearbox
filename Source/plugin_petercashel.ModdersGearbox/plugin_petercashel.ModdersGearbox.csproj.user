@@ -3,4 +3,9 @@
   <PropertyGroup>
     <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartAction>Program</StartAction>
+    <StartProgram>M:\SteamLibrary\steamapps\common\FortressCraft\64\FC_64_debug.exe</StartProgram>
+    <StartWorkingDirectory>M:\SteamLibrary\steamapps\common\FortressCraft\64\</StartWorkingDirectory>
+  </PropertyGroup>
 </Project>

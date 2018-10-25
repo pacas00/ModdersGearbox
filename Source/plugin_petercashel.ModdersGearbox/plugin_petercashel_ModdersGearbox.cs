@@ -65,7 +65,5 @@ namespace plugin_petercashel_ModdersGearbox
 			mInitalised = true;
 			mIsRunning = true;
 		}
-
-
 	}
 }
