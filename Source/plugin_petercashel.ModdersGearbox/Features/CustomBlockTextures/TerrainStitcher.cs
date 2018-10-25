@@ -23,48 +23,49 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 				FindAllTextures();
 				StitchTexturesAndAssignIDs();
 				SetTerrainTextures();
-				Debug.LogWarning("We Done Son");
-				try
-				{
-					//Save textures out.
 
-					// Encode texture into PNG
-					byte[] bytes = diffuseTexture.EncodeToPNG();
+				//try
+				//{
+				//	//Save textures out.
 
-					mDataSavePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "ModdersGearbox";
-					if (!System.IO.Directory.Exists(mDataSavePath))
-					{
-						System.IO.Directory.CreateDirectory(mDataSavePath);
-					}
+				//	// Encode texture into PNG
+				//	byte[] bytes = diffuseTexture.EncodeToPNG();
 
-					mDataSavePath += Path.DirectorySeparatorChar;
+				//	mDataSavePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "ModdersGearbox";
+				//	if (!System.IO.Directory.Exists(mDataSavePath))
+				//	{
+				//		System.IO.Directory.CreateDirectory(mDataSavePath);
+				//	}
 
-					File.WriteAllBytes(mDataSavePath + "Terrain_" + 0 + ".png",
-						bytes);
+				//	mDataSavePath += Path.DirectorySeparatorChar;
+
+				//	File.WriteAllBytes(mDataSavePath + "Terrain_" + 0 + ".png",
+				//		bytes);
 
 
-					// Encode texture into PNG
-					bytes = normalTexture.EncodeToPNG();
+				//	// Encode texture into PNG
+				//	bytes = normalTexture.EncodeToPNG();
 
-					mDataSavePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "ModdersGearbox";
-					if (!System.IO.Directory.Exists(mDataSavePath))
-					{
-						System.IO.Directory.CreateDirectory(mDataSavePath);
-					}
+				//	mDataSavePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "ModdersGearbox";
+				//	if (!System.IO.Directory.Exists(mDataSavePath))
+				//	{
+				//		System.IO.Directory.CreateDirectory(mDataSavePath);
+				//	}
 
-					mDataSavePath += Path.DirectorySeparatorChar;
+				//	mDataSavePath += Path.DirectorySeparatorChar;
 
-					File.WriteAllBytes(mDataSavePath + "Terrain_" + 1 + ".png",
-						bytes);
-				}
-				catch
-				{
+				//	File.WriteAllBytes(mDataSavePath + "Terrain_" + 1 + ".png",
+				//		bytes);
+				//}
+				//catch
+				//{
 
-				}
+				//}
 			}
 			else
 			{
-				SetTerrainTextures();
+				//We may run multiple times while it waits for us to be done, so we dont
+				//Maybe start a thread and run this there so we don't block, but then the game might load before we have changed terrain.
 			}
 			
 		}
@@ -172,7 +173,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 						Graphics.Blit(tmp, RenderTexture.active);
 						
 						diffuseTmp = new Texture2D(w, h * 2, tmp.format, true);
-						Graphics.CopyTexture(tmp, diffuseTmp);
+						Graphics.CopyTexture(tmp, 0, 0, 0, 0, tmp.width, tmp.height, diffuseTmp, 0, 0, 0, tmp.height);
 						diffuseTmp.ReadPixels(new Rect(0, 0, tmp.width, tmp.height), 0, tmp.height);
 						diffuseTmp.Apply();
 
@@ -193,7 +194,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 						normalTmp = new Texture2D(w, h * 2, tmp.format, true);
 						Paint(normalTmp, new Color(0.5f, 0.5f, 0.5f, 0.5f));
 
-						Graphics.CopyTexture(tmp, normalTmp);
+						Graphics.CopyTexture(tmp, 0, 0, 0, 0, tmp.width, tmp.height, normalTmp, 0, 0, 0, tmp.height);
 						normalTmp.ReadPixels(new Rect(0, 0, tmp.width, tmp.height), 0, tmp.height);
 						normalTmp.Apply();
 
