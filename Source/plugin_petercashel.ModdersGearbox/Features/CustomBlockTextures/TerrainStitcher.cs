@@ -41,8 +41,10 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                 FindAllTextures();
                 StitchTexturesAndAssignIDs();
                 SetTerrainTextures();
-                //ExportTextures();
-            }
+                #if DEBUG
+                ExportTextures();
+                #endif
+			}
         }
 
         static void ExportTextures()
@@ -360,24 +362,19 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
             //throw new NotImplementedException();
 
-            ProcessTextures(DiffuseTexturesAll, TextureType.Diffuse, TextureSide.All);
-            ProcessTextures(DiffuseTexturesTop, TextureType.Diffuse, TextureSide.Top);
-            ProcessTextures(DiffuseTexturesSide, TextureType.Diffuse, TextureSide.Side);
-            ProcessTextures(DiffuseTexturesBottom, TextureType.Diffuse, TextureSide.Bottom);
-
-            ProcessTextures(NormalTexturesAll, TextureType.Normal, TextureSide.All);
-            ProcessTextures(NormalTexturesTop, TextureType.Normal, TextureSide.Top);
-            ProcessTextures(NormalTexturesSide, TextureType.Normal, TextureSide.Side);
-            ProcessTextures(NormalTexturesBottom, TextureType.Normal, TextureSide.Bottom);
+            ProcessTextures(DiffuseTexturesAll, NormalTexturesAll, TextureSide.All);
+            ProcessTextures(DiffuseTexturesTop, NormalTexturesTop, TextureSide.Top);
+            ProcessTextures(DiffuseTexturesSide, NormalTexturesSide, TextureSide.Side);
+            ProcessTextures(DiffuseTexturesBottom, NormalTexturesBottom, TextureSide.Bottom);
 
             mDiffuseTexture.Apply();
             mNormalTexture.Apply();
         }
 
-        static void ProcessTextures(Dictionary<string, string> dictionary, TextureType textureType, TextureSide textureSide)
+        static void ProcessTextures(Dictionary<string, string> dictionaryDiffuse, Dictionary<string, string> dictionaryNormal, TextureSide textureSide)
         {
             var slot = -1;
-            foreach (var key in dictionary.Keys)
+            foreach (var key in dictionaryDiffuse.Keys)
             {
                 try
                 {
@@ -419,9 +416,9 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
                     Rect target = SegmentMeshCreator.instance.mMeshRenderer.segmentUVCoord.GetSprite(slot);
 
-                    Texture2D newSprite = LoadPNG(dictionary[key], 146, 146);
-
-                    Texture2D targetTexture = textureType == TextureType.Diffuse ? mDiffuseTexture : mNormalTexture;
+                    //Process for Diffuse
+                    Texture2D newSprite = LoadPNG(dictionaryDiffuse[key], 146, 146);
+                    Texture2D targetTexture = mDiffuseTexture;
 
                     var ypos = targetTexture.height - ((int) target.y - 9);
 
@@ -430,6 +427,13 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
                     targetTexture.SetPixels((int) target.x - 9, ypos, 146, 146, newSprite.GetPixels());
 
+                    //Process Normal
+                    if (dictionaryNormal.ContainsKey(key))
+                    {
+                        Texture2D newNormalSprite = LoadPNG(dictionaryNormal[key], 146, 146);
+                        targetTexture = mNormalTexture;
+                        targetTexture.SetPixels((int)target.x - 9, ypos, 146, 146, newNormalSprite.GetPixels());
+					}
 
                     if (bNeedsNewID)
                     {
@@ -481,9 +485,9 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             return texture2D;
         }
 
-        #endregion
+#endregion
 
-        #region  Enums
+#region  Enums
 
         public enum TextureSide
         {
@@ -493,12 +497,6 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             Bottom
         }
 
-        public enum TextureType
-        {
-            Diffuse,
-            Normal
-        }
-
-        #endregion
+#endregion
     }
 }
