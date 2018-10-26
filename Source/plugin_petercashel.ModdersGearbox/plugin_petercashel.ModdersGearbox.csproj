@@ -70,7 +70,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>pdb2mdb.exe plugin_petercashel.ModdersGearbox.dll
+    <PostBuildEvent>if $(ConfigurationName) == Debug (
+pdb2mdb.exe plugin_petercashel.ModdersGearbox.dll
+)
+
+if %2525ComputerName%2525 == PETERCASHEL-PC (
 
 if $(ConfigurationName) == Debug (
 copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll" /Y
@@ -80,6 +84,8 @@ copy plugin_petercashel.ModdersGearbox.dll.mdb "C:\Users\Peter\AppData\Local\Pro
 
 if $(ConfigurationName) == Release (
 copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1" /Y
+)
+
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>
