@@ -74,7 +74,7 @@
 pdb2mdb.exe plugin_petercashel.ModdersGearbox.dll
 )
 
-if %2525ComputerName%2525 == PETERCASHEL-PC (
+if %25ComputerName%25 == PETERCASHEL-PC (
 
 if $(ConfigurationName) == Debug (
 copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll" /Y
