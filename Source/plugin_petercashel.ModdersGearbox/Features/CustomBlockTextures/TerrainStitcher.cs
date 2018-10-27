@@ -15,6 +15,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
         static Texture2D mDiffuseTexture;
         static Texture2D mNormalTexture;
 
+		//Key, File
         public static Dictionary<string, string> DiffuseTexturesAll = new Dictionary<string, string>();
         public static Dictionary<string, string> DiffuseTexturesTop = new Dictionary<string, string>();
         public static Dictionary<string, string> DiffuseTexturesSide = new Dictionary<string, string>();
@@ -25,7 +26,12 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
         public static Dictionary<string, string> NormalTexturesSide = new Dictionary<string, string>();
         public static Dictionary<string, string> NormalTexturesBottom = new Dictionary<string, string>();
 
-        public static int NextTextureSpriteId = 392;
+
+		//Ore Support - Key, Stage, File
+        public static Dictionary<string, Dictionary<int, string>> DiffuseTexturesOreStages = new Dictionary<string, Dictionary<int, string>>();
+        public static Dictionary<string, Dictionary<int, string>> NormalTexturesOreStages = new Dictionary<string, Dictionary<int, string>>();
+
+		public static int NextTextureSpriteId = 392;
 
         #endregion
 
@@ -288,12 +294,36 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                             }
                             else
                             {
-                                if (DiffuseTexturesAll.ContainsKey(key))
+                                if (fileNameWithoutExtension.ToLower().Contains("_stage"))
                                 {
-                                    DiffuseTexturesAll.Remove(key);
-                                }
+                                    key = fileNameWithoutExtension.Remove(fileNameWithoutExtension.IndexOf("_stage"));
 
-                                DiffuseTexturesAll.Add(fileNameWithoutExtension, path2);
+                                    if (!DiffuseTexturesOreStages.ContainsKey(key))
+                                    {
+                                        DiffuseTexturesOreStages.Add(key, new Dictionary<int, string>());
+									}
+
+                                    int start = fileNameWithoutExtension.IndexOf("_stage") + 6;
+									int stage = Int32.Parse(fileNameWithoutExtension.Substring(start, fileNameWithoutExtension.Length - start));
+
+                                    var stages = DiffuseTexturesOreStages[key];
+
+                                    if (stages.ContainsKey(stage))
+                                    {
+                                        stages.Remove(stage);
+									}
+                                    stages.Add(stage, path2);
+
+								}
+                                else
+                                {
+                                    if (DiffuseTexturesAll.ContainsKey(key))
+                                    {
+                                        DiffuseTexturesAll.Remove(key);
+                                    }
+
+                                    DiffuseTexturesAll.Add(fileNameWithoutExtension, path2);
+								}
                             }
                         }
                     }
@@ -343,12 +373,36 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                             }
                             else
                             {
-                                if (NormalTexturesAll.ContainsKey(key))
+                                if (fileNameWithoutExtension.ToLower().Contains("_stage"))
                                 {
-                                    NormalTexturesAll.Remove(key);
-                                }
+                                    key = fileNameWithoutExtension.Remove(fileNameWithoutExtension.IndexOf("_stage"));
 
-                                NormalTexturesAll.Add(fileNameWithoutExtension, path2);
+                                    if (!NormalTexturesOreStages.ContainsKey(key))
+                                    {
+                                        NormalTexturesOreStages.Add(key, new Dictionary<int, string>());
+                                    }
+
+                                    int start = fileNameWithoutExtension.IndexOf("_stage") + 6;
+                                    int stage = Int32.Parse(fileNameWithoutExtension.Substring(start, fileNameWithoutExtension.Length - start));
+
+                                    var stages = NormalTexturesOreStages[key];
+
+                                    if (stages.ContainsKey(stage))
+                                    {
+                                        stages.Remove(stage);
+                                    }
+                                    stages.Add(stage, path2);
+
+                                }
+                                else
+								{
+                                    if (NormalTexturesAll.ContainsKey(key))
+                                    {
+                                        NormalTexturesAll.Remove(key);
+                                    }
+
+                                    NormalTexturesAll.Add(fileNameWithoutExtension, path2);
+                                }
                             }
                         }
                     }
@@ -367,7 +421,10 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             ProcessTextures(DiffuseTexturesSide, NormalTexturesSide, TextureSide.Side);
             ProcessTextures(DiffuseTexturesBottom, NormalTexturesBottom, TextureSide.Bottom);
 
-            mDiffuseTexture.Apply();
+
+            ProcessOreTextures(DiffuseTexturesOreStages, NormalTexturesOreStages);
+
+			mDiffuseTexture.Apply();
             mNormalTexture.Apply();
         }
 
@@ -472,7 +529,77 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             }
         }
 
-        static Texture2D LoadPNG(string v1, int v2, int v3)
+		static void ProcessOreTextures(Dictionary<string, Dictionary<int, string>> dictionaryDiffuse, Dictionary<string, Dictionary<int, string>> dictionaryNormal)
+		{
+			var slot = -1;
+			foreach (var terrainKey in dictionaryDiffuse.Keys)
+            {
+                Dictionary<int, string> stagesDiffuse = dictionaryDiffuse[terrainKey];
+                Dictionary<int, string> stagesNormal = null;
+
+                if (dictionaryNormal.ContainsKey(terrainKey))
+                {
+                    stagesNormal = dictionaryNormal[terrainKey];
+                }
+
+				foreach (KeyValuePair<int, string> keyValuePair in stagesDiffuse)
+                {
+                    int key = keyValuePair.Key;
+					try
+					{
+                        var bNeedsNewID = terrainKey.Contains(".");
+
+                        //Entry to set.
+                        TerrainDataEntry terrainDataEntry = TerrainData.mEntriesByKey[terrainKey];
+                        TerrainDataStageEntry entry = terrainDataEntry.Stages[keyValuePair.Key];
+                        
+						if (bNeedsNewID)
+                        {
+                            slot = NextTextureSpriteId++;
+                        }
+                        else
+                        {
+                            slot = entry.TopTexture;
+                        }
+
+                        Rect target = SegmentMeshCreator.instance.mMeshRenderer.segmentUVCoord.GetSprite(slot);
+
+                        //Process for Diffuse
+                        Texture2D newSprite = LoadPNG(stagesDiffuse[key], 146, 146);
+                        Texture2D targetTexture = mDiffuseTexture;
+
+                        var ypos = targetTexture.height - ((int)target.y - 9);
+
+                        //Correction.
+                        ypos = ypos - 146;
+
+                        targetTexture.SetPixels((int)target.x - 9, ypos, 146, 146, newSprite.GetPixels());
+
+                        //Process Normal
+                        if (stagesNormal != null && stagesNormal.ContainsKey(key))
+                        {
+                            Texture2D newNormalSprite = LoadPNG(stagesNormal[key], 146, 146);
+                            targetTexture = mNormalTexture;
+                            targetTexture.SetPixels((int)target.x - 9, ypos, 146, 146, newNormalSprite.GetPixels());
+                        }
+
+                        if (bNeedsNewID)
+                        {
+                            entry.TopTexture = slot;
+                            entry.SideTexture = slot;
+                            entry.BottomTexture = slot;
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        Debug.LogException(exception);
+                    }
+				}
+
+            }
+		}
+
+		static Texture2D LoadPNG(string v1, int v2, int v3)
         {
             Texture2D texture2D = null;
             if (File.Exists(v1))
