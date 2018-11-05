@@ -64,4 +64,45 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.Patches
 			lRenderer.SetPropertyBlock(mpb);
 		}
 	}
+
+    //When the script starts up, should grab the new textures.
+    [HarmonyPatch(typeof(SurvivalDigScript))]
+	[HarmonyPatch("Update")]
+	class SurvivalDigScriptPatch_Update
+    {
+        public static bool bTexturesSet = false;
+
+		static void Postfix(SurvivalDigScript __instance)
+		{
+            if (bTexturesSet)
+            {
+                return;
+            }
+
+            if (PersistentSettings.mbHeadlessServer || GameState.State != GameStateEnum.Playing ||
+                WorldScript.mLocalPlayer == null ||
+                WorldScript.instance == null)
+                return;
+
+			bTexturesSet = true;
+
+			try
+            {
+                Traverse traverse = Traverse.Create(__instance);
+                var particleSystem = traverse.Field("DigParticles").GetValue<ParticleSystem>();
+
+                if (particleSystem != null)
+                {
+                    var renderer = particleSystem.GetComponent<Renderer>();
+                    renderer.material.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
+                    renderer.material.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
+                }
+            }
+            catch (Exception ex)
+            {
+                //Something broke.
+                Debug.LogException(ex);
+            }
+		}
+	}
 }

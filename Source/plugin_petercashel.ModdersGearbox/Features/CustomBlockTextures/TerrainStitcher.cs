@@ -42,6 +42,12 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             if (!mbHasRun)
             {
                 mbHasRun = true;
+
+                if (WorldScript.mbDedicated)
+                {
+                    return;
+                }
+
                 LoadAndExtendTextureSheets();
                 SetTerrainTextures();
                 FindAllTextures();
