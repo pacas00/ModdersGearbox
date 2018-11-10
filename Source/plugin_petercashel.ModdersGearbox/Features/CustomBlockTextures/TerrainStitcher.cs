@@ -702,7 +702,9 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     //Entry to set.
                     TerrainDataEntry entry = TerrainData.mEntriesByKey[key];
 
-                    if (bNeedsNewID)
+                    dictionaryDiffuse[key].UpscaleAsNeeded();
+
+					if (bNeedsNewID)
                     {
                         slot = NextTextureSpriteId++;
                     }
@@ -749,7 +751,8 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     //Process Normal
                     if (dictionaryNormal.ContainsKey(key))
                     {
-                        Texture2D newNormalSprite = dictionaryNormal[key].texture;
+                        dictionaryNormal[key].UpscaleAsNeeded();
+						Texture2D newNormalSprite = dictionaryNormal[key].texture;
                         targetTexture = mNormalTexture;
                         targetTexture.SetPixels((int)target.x - 9, ypos, 146, 146, newNormalSprite.GetPixels());
                         UnityEngine.Object.Destroy(newNormalSprite);
@@ -817,7 +820,9 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         //Entry to set.
                         TerrainDataEntry terrainDataEntry = TerrainData.mEntriesByKey[terrainKey];
                         TerrainDataStageEntry entry = terrainDataEntry.Stages[keyValuePair.Key];
-                        
+
+						keyValuePair.Value.UpscaleAsNeeded();
+
 						if (bNeedsNewID)
                         {
                             slot = NextTextureSpriteId++;
@@ -944,7 +949,6 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     Size = TextureSize.Invalid;
                     UnityEngine.Object.Destroy(texture);
                     texture = null;
-
                 }
                 else
                 {
@@ -963,12 +967,14 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         case 256:
                         {
                             Size = TextureSize.HD256;
+                            bSwitchToHD = true;
                             break;
                         }
                         case 292:
                         {
                             Size = TextureSize.HD292;
-                            break;
+                            bSwitchToHD = true;
+							break;
                         }
                         default:
                         {
@@ -980,7 +986,148 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 					}
 				}
             }
-        }
+
+            public void UpscaleAsNeeded()
+            {
+                // IF SD and 128 -> Pad
+                // IF HD and 128 -> Pad -> Upscale
+                // IF HD and 256 -> PadHD
+
+                if (Size == TextureSize.SD128)
+                {
+                    Pad();
+                    Size = TextureSize.SD146;
+                }
+
+                if (Size == TextureSize.SD146 && TextureDefinition == TextureMode.HD)
+                {
+                    Upscale();
+                    Size = TextureSize.HD292;
+                }
+
+                if (Size == TextureSize.HD256 && TextureDefinition == TextureMode.HD)
+                {
+                    PadHD();
+                    Size = TextureSize.HD292;
+                }
+			}
+
+            private void Upscale()
+            {
+                TextureScale.Point(texture, 292, 292);
+            }
+
+            private void Pad()
+            {
+                //consts for my sanity
+                const int sourceSize = 128;
+                const int targetSize = 146;
+
+				const int totalPaddingSize = targetSize - sourceSize;
+                const int halfPaddingSize = totalPaddingSize / 2;
+                
+                const int farOffsetSize = sourceSize + halfPaddingSize;
+
+				//Time to fix the image
+				var image = new BitMap(texture);
+				var newImage = new BitMap(targetSize, targetSize);
+
+                for (int x = 0; x < targetSize; x++)
+                {
+                    for (int y = 0; y < targetSize; y++)
+                    {
+                        newImage.SetPixel(x, y, Color.black);
+                    }
+                }
+
+                for (int x = 0; x < sourceSize; x++)
+                {
+                    for (int y = 0; y < sourceSize; y++)
+                    {
+                        newImage.SetPixel(x + halfPaddingSize, y + halfPaddingSize, image.GetPixel(x, y));
+                    }
+                }
+
+                int farOffset = farOffsetSize;
+                int farOffset2 = farOffset - 1;
+
+                //////Ok build the blur.
+                for (int x = 0; x < targetSize; x++)
+                {
+                    for (int y = 0; y < halfPaddingSize; y++)
+                    {
+                        newImage.SetPixel(x, y, newImage.GetPixel(x, totalPaddingSize - y));
+                        newImage.SetPixel(x, farOffset + y, newImage.GetPixel(x, farOffset2 - y));
+                    }
+                }
+
+                for (int y = 0; y < targetSize; y++)
+                {
+                    for (int x = 0; x < halfPaddingSize; x++)
+                    {
+                        newImage.SetPixel(x, y, newImage.GetPixel(totalPaddingSize - x, y));
+                        newImage.SetPixel(farOffset + x, y, newImage.GetPixel(farOffset2 - x, y));
+                    }
+                }
+                texture = newImage;
+			}
+
+            private void PadHD()
+			{
+				//consts for my sanity
+				const int sourceSize = 256;
+				const int targetSize = 292;
+
+				const int totalPaddingSize = targetSize - sourceSize;
+				const int halfPaddingSize = totalPaddingSize / 2;
+
+				const int farOffsetSize = sourceSize + halfPaddingSize;
+
+				//Time to fix the image
+				var image = new BitMap(texture);
+				var newImage = new BitMap(targetSize, targetSize);
+
+				for (int x = 0; x < targetSize; x++)
+				{
+					for (int y = 0; y < targetSize; y++)
+					{
+						newImage.SetPixel(x, y, Color.black);
+					}
+				}
+
+				for (int x = 0; x < sourceSize; x++)
+				{
+					for (int y = 0; y < sourceSize; y++)
+					{
+						newImage.SetPixel(x + halfPaddingSize, y + halfPaddingSize, image.GetPixel(x, y));
+					}
+				}
+
+				int farOffset = farOffsetSize;
+				int farOffset2 = farOffset - 1;
+
+				//////Ok build the blur.
+				for (int x = 0; x < targetSize; x++)
+				{
+					for (int y = 0; y < halfPaddingSize; y++)
+					{
+						newImage.SetPixel(x, y, newImage.GetPixel(x, totalPaddingSize - y));
+						newImage.SetPixel(x, farOffset + y, newImage.GetPixel(x, farOffset2 - y));
+					}
+				}
+
+				for (int y = 0; y < targetSize; y++)
+				{
+					for (int x = 0; x < halfPaddingSize; x++)
+					{
+						newImage.SetPixel(x, y, newImage.GetPixel(totalPaddingSize - x, y));
+						newImage.SetPixel(farOffset + x, y, newImage.GetPixel(farOffset2 - x, y));
+					}
+				}
+				texture = newImage;
+			}
+
+		}
 
         #endregion
     }

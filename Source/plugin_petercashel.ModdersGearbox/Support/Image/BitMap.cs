@@ -8,11 +8,11 @@ using UnityEngine;
 
 namespace plugin_petercashel_ModdersGearbox.Support.Image
 {
-    // Work in progress BitMap replacement
-    // Author: Peter Cashel - github:pacas00
-    // 
+	// Work in progress BitMap replacement using Texture2D and TextureFormat.ARGB32
+	// Author: Peter Cashel - github:pacas00
+	// 
 
-    public class BitMap : IDisposable
+	public class BitMap : IDisposable
     {
         public Texture2D _Texture2D { get; private set; }
         public bool _Disposed { get; private set; }
@@ -26,12 +26,24 @@ namespace plugin_petercashel_ModdersGearbox.Support.Image
             _Texture2D = new Texture2D(width, height, TextureFormat.ARGB32, false);
         }
 
-        //Load data with 
-        //bool - _Texture2D.LoadImage(byte[] data) 
-        //void - _Texture2D.LoadRawTextureData(byte[] data); 
-        //void - _Texture2D.LoadRawTextureData(IntPtr data, int size);
+        public BitMap(Texture2D texture2D)
+        {
+            _Texture2D = texture2D;
+            _Width = texture2D.width;
+            _Height = texture2D.height;
+        }
 
-        public void SetPixel(int x, int y, UnityEngine.Color colour)
+        public static implicit operator Texture2D(BitMap bmp)
+        {
+            return bmp._Texture2D;
+        }
+
+		//Load data with 
+		//bool - _Texture2D.LoadImage(byte[] data) 
+		//void - _Texture2D.LoadRawTextureData(byte[] data); 
+		//void - _Texture2D.LoadRawTextureData(IntPtr data, int size);
+
+		public void SetPixel(int x, int y, UnityEngine.Color colour)
         {
             _Texture2D.SetPixel(x, y, colour);
         }
