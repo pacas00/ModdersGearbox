@@ -186,13 +186,14 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                 try
                 {
                     var tmp = SegmentMeshCreator.instance.segmentMaterial.mainTexture as Texture2D;
-
+                    RenderTexture rt = null;
                     if (tmp != null)
                     {
                         var h = tmp.height;
                         var w = tmp.width;
+                        rt = new RenderTexture(w, h, 32);
 
-                        RenderTexture.active = new RenderTexture(w, h, 32);
+                        RenderTexture.active = rt;
                         Graphics.Blit(tmp, RenderTexture.active);
 
                         diffuseTmp = new Texture2D(w, h * 2, tmp.format, true);
@@ -201,6 +202,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         diffuseTmp.Apply();
 
                         RenderTexture.active = originalRenderTexture;
+                        UnityEngine.Object.Destroy(rt);
                     }
 
                     tmp = SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap") as Texture2D;
@@ -209,8 +211,9 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     {
                         var h = tmp.height;
                         var w = tmp.width;
+                        rt = new RenderTexture(w, h, 32);
 
-                        RenderTexture.active = new RenderTexture(w, h, 32);
+                        RenderTexture.active = rt;
                         Graphics.Blit(tmp, RenderTexture.active);
 
                         normalTmp = new Texture2D(w, h * 2, tmp.format, true);
@@ -221,7 +224,8 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         normalTmp.Apply();
 
                         RenderTexture.active = originalRenderTexture;
-                    }
+						UnityEngine.Object.Destroy(rt);
+					}
                 }
                 catch (Exception ex)
                 {
@@ -430,8 +434,11 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
             ProcessOreTextures(DiffuseTexturesOreStages, NormalTexturesOreStages);
 
-			mDiffuseTexture.Apply();
-            mNormalTexture.Apply();
+            //Finalise to the GPU. From here on, We cannot read it anymore.
+            mDiffuseTexture.Compress(true);
+			mDiffuseTexture.Apply(true, true);
+            mNormalTexture.Compress(true);
+			mNormalTexture.Apply(true, true);
         }
 
         static void ProcessTextures(Dictionary<string, string> dictionaryDiffuse, Dictionary<string, string> dictionaryNormal, TextureSide textureSide)
@@ -480,7 +487,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     Rect target = SegmentMeshCreator.instance.mMeshRenderer.segmentUVCoord.GetSprite(slot);
 
                     //Process for Diffuse
-                    Texture2D newSprite = LoadPNG(dictionaryDiffuse[key], 146, 146);
+                    Texture2D newSprite = LoadPNG(dictionaryDiffuse[key]);
                     Texture2D targetTexture = mDiffuseTexture;
 
                     var ypos = targetTexture.height - ((int) target.y - 9);
@@ -493,9 +500,10 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     //Process Normal
                     if (dictionaryNormal.ContainsKey(key))
                     {
-                        Texture2D newNormalSprite = LoadPNG(dictionaryNormal[key], 146, 146);
+                        Texture2D newNormalSprite = LoadPNG(dictionaryNormal[key]);
                         targetTexture = mNormalTexture;
                         targetTexture.SetPixels((int)target.x - 9, ypos, 146, 146, newNormalSprite.GetPixels());
+                        UnityEngine.Object.Destroy(newNormalSprite);
 					}
 
                     if (bNeedsNewID)
@@ -527,6 +535,8 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                             }
                         }
                     }
+
+                    UnityEngine.Object.Destroy(newSprite);
                 }
                 catch (Exception exception)
                 {
@@ -571,7 +581,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         Rect target = SegmentMeshCreator.instance.mMeshRenderer.segmentUVCoord.GetSprite(slot);
 
                         //Process for Diffuse
-                        Texture2D newSprite = LoadPNG(stagesDiffuse[key], 146, 146);
+                        Texture2D newSprite = LoadPNG(stagesDiffuse[key]);
                         Texture2D targetTexture = mDiffuseTexture;
 
                         var ypos = targetTexture.height - ((int)target.y - 9);
@@ -584,18 +594,21 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         //Process Normal
                         if (stagesNormal != null && stagesNormal.ContainsKey(key))
                         {
-                            Texture2D newNormalSprite = LoadPNG(stagesNormal[key], 146, 146);
+                            Texture2D newNormalSprite = LoadPNG(stagesNormal[key]);
                             targetTexture = mNormalTexture;
                             targetTexture.SetPixels((int)target.x - 9, ypos, 146, 146, newNormalSprite.GetPixels());
-                        }
+                            UnityEngine.Object.Destroy(newNormalSprite);
+						}
 
                         if (bNeedsNewID)
                         {
                             entry.TopTexture = slot;
                             entry.SideTexture = slot;
                             entry.BottomTexture = slot;
-                        }
-                    }
+						}
+
+						UnityEngine.Object.Destroy(newSprite);
+					}
                     catch (Exception exception)
                     {
                         Debug.LogException(exception);
@@ -605,22 +618,22 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             }
 		}
 
-		static Texture2D LoadPNG(string v1, int v2, int v3)
+		static Texture2D LoadPNG(string filePath)
         {
             Texture2D texture2D = null;
-            if (File.Exists(v1))
+            if (File.Exists(filePath))
             {
-                byte[] data = File.ReadAllBytes(v1);
-                texture2D = new Texture2D(v2, v3);
+                byte[] data = File.ReadAllBytes(filePath);
+                texture2D = new Texture2D(2, 2); //Size is irrelevent and replaced by the LoadImage call
                 texture2D.LoadImage(data);
             }
 
             return texture2D;
         }
 
-#endregion
+        #endregion
 
-#region  Enums
+        #region  Enums
 
         public enum TextureSide
         {
@@ -630,6 +643,14 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             Bottom
         }
 
-#endregion
+        public enum TextureSize
+        {
+            SD128 = 128,
+            SD146 = 146,
+            HD256 = 256,
+            HD292 = 292
+        }
+
+        #endregion
     }
 }

@@ -50,8 +50,11 @@
   <ItemGroup>
     <Compile Include="Features\CustomBlockTextures\Patches\Hooks.cs" />
     <Compile Include="Features\CustomBlockTextures\TerrainStitcher.cs" />
+    <Compile Include="ModdersGearboxMain.cs" />
     <Compile Include="plugin_petercashel_ModdersGearbox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Support\Image\BitMap.cs" />
+    <Compile Include="Support\Image\TextureScale.cs" />
     <Compile Include="UtilClass.cs" />
   </ItemGroup>
   <ItemGroup>
