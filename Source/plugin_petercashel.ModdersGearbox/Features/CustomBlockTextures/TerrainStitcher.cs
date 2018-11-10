@@ -53,13 +53,9 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                 }
 
                 LoadAndExtendTextureSheets();
-                ExportTextures();
 				SetTerrainTextures();
                 
                 bOverrideSetUVCalls = true;
-
-                //Return here still the code reading the textures is right.
-                return;
 
 				FindAllTextures();
 
@@ -74,10 +70,6 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                 SetTerrainTextures();
 
                 PurgeTempTexture();
-
-                #if DEBUG
-                ExportTextures();
-                #endif
 			}
         }
 
@@ -217,7 +209,9 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             {
                 SegmentMeshCreator.instance.mMeshRenderer.segmentUVCoord = new TerrainUVCoord(SegmentMeshCreator.instance.segmentMaterial.mainTexture.width, SegmentMeshCreator.instance.segmentMaterial.mainTexture.height, 256, 256, 18);
 			}
-            TerrainUV.lnMatPiy = SegmentMeshCreator.instance.segmentMaterial.mainTexture.height;
+
+            TerrainUV.lnMatPix = SegmentMeshCreator.instance.segmentMaterial.mainTexture.width;
+			TerrainUV.lnMatPiy = SegmentMeshCreator.instance.segmentMaterial.mainTexture.height;
 
             //TODO WARNING ALERT
             //I HAVE NO FUCKING CLUE HERE
@@ -226,18 +220,24 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             //TerrainUV.lnTilesY = (int)(TerrainUV.lnMatPiy / (float)TerrainUV.lnTotalPix);
             if (TextureDefinition == TextureMode.SD)
             {
-				var tmp = TerrainUV.lnMatPiy / 146;
+                var tmp = TerrainUV.lnMatPix / 146;
+                TerrainUV.lnTilesX = (int)tmp;
+
+				tmp = TerrainUV.lnMatPiy / 146;
                 TerrainUV.lnTilesY = (int)tmp;
 			}
             else
             {
-                var tmp = TerrainUV.lnMatPiy / 292;
+                var tmp = TerrainUV.lnMatPix / 292;
+                TerrainUV.lnTilesX = (int)tmp;
+
+				tmp = TerrainUV.lnMatPiy / 292;
                 TerrainUV.lnTilesY = (int)tmp;
 			}
 
 
-
-            SegmentMeshCreator.instance.currentMaterialHeight = SegmentMeshCreator.instance.segmentMaterial.mainTexture.height;
+            SegmentMeshCreator.instance.currentMaterialWidth = SegmentMeshCreator.instance.segmentMaterial.mainTexture.width;
+			SegmentMeshCreator.instance.currentMaterialHeight = SegmentMeshCreator.instance.segmentMaterial.mainTexture.height;
 
             CurrentBlockMaterialUpdate.instance.CurrentBlockMat.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
             CurrentBlockMaterialUpdate.instance.CurrentBlockMat.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
@@ -400,7 +400,6 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
                         Color[] colors = diffuseTmp.GetPixels((int)sourceTarget.x - MagicNumber, ypos, TextureSize, TextureSize);
 
-                        //Graphics.CopyTexture(diffuseTmp, 0, 0, (int)sourceTarget.x - MagicNumber, ypos, TextureSize, TextureSize, mDiffuseTexture, 0, 0, (int)Target.x - MagicNumber, ypos2);
 						mDiffuseTexture.SetPixels((int)Target.x - MagicNumber, ypos2, TextureSize, TextureSize, colors);
                     }
                     else
@@ -419,7 +418,6 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
                         Color[] colors = diffuseTmp.GetPixels((int)sourceTarget.x - MagicNumber, ypos, TextureSize, TextureSize);
 
-                        //Graphics.CopyTexture(diffuseTmp, 0, 0, (int)sourceTarget.x - MagicNumber, ypos, TextureSize, TextureSize, mDiffuseTexture, 0, 0, (int)Target.x - MagicNumber, ypos2);
 						mDiffuseTexture.SetPixels((int)Target.x - MagicNumber, ypos2, TextureSize, TextureSize, colors);
                     }
 
@@ -440,7 +438,6 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
                         Color[] colors = normalTmp.GetPixels((int)sourceTarget.x - MagicNumber, ypos, TextureSize, TextureSize);
 
-                        //Graphics.CopyTexture(normalTmp, 0, 0, (int)sourceTarget.x - MagicNumber, ypos, TextureSize, TextureSize, mNormalTexture, 0, 0, (int)Target.x - MagicNumber, ypos2);
                         mNormalTexture.SetPixels((int)Target.x - MagicNumber, ypos2, TextureSize, TextureSize, colors);
                     }
                     else
@@ -459,7 +456,6 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
                         Color[] colors = normalTmp.GetPixels((int)sourceTarget.x - MagicNumber, ypos, TextureSize, TextureSize);
                         
-                        //Graphics.CopyTexture(normalTmp, 0, 0, (int)sourceTarget.x - MagicNumber, ypos, TextureSize, TextureSize, mNormalTexture, 0, 0, (int)Target.x - MagicNumber, ypos2);
                         mNormalTexture.SetPixels((int)Target.x - MagicNumber, ypos2, TextureSize, TextureSize, colors);
 					}
                 }
@@ -678,8 +674,17 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
             ProcessOreTextures(DiffuseTexturesOreStages, NormalTexturesOreStages);
 
-            //Finalise to the GPU. From here on, We cannot read it anymore.
-            mDiffuseTexture.Compress(true);
+
+
+            mDiffuseTexture.Apply();
+			mNormalTexture.Apply();
+            
+            #if DEBUG
+			ExportTextures();
+            #endif
+
+			//Finalise to the GPU. From here on, We cannot read it anymore.
+			mDiffuseTexture.Compress(true);
 			mDiffuseTexture.Apply(true, true);
             mNormalTexture.Compress(true);
 			mNormalTexture.Apply(true, true);
