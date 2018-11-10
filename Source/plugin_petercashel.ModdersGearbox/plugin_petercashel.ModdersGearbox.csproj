@@ -48,6 +48,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Features\CustomBlockTextures\HD\SetUVOnCubeToTerrainIndex_HD.cs" />
+    <Compile Include="Features\CustomBlockTextures\HD\SetUVOnCubeToTerrainIndex_SD.cs" />
+    <Compile Include="Features\CustomBlockTextures\Patches\SetUVOnCubeToTerrainIndex.cs" />
     <Compile Include="Features\CustomBlockTextures\Patches\Hooks.cs" />
     <Compile Include="Features\CustomBlockTextures\TerrainStitcher.cs" />
     <Compile Include="ModdersGearboxMain.cs" />

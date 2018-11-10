@@ -18,10 +18,11 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.Patches
 	
 	[HarmonyPatch(typeof(SetUVOnCubeToTerrainIndex))]
 	[HarmonyPatch("SetMaterialUV")]
-	class SetUVOnCubeToTerrainIndexPatch_SetMaterialUV
+	class SetUVOnCubeToTerrainIndexPatch_SetMaterialUV_OLD
 	{
 		static bool Prefix(Renderer lRenderer, int lnWhich, ushort lValue, bool lbDoBump)
-		{
+        {
+            return true;
 			SetMaterialUV(lRenderer, lnWhich, lValue, lbDoBump);
 			return false;
 		}
