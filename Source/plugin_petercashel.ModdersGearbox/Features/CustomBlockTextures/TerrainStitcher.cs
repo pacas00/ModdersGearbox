@@ -32,7 +32,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
         public static Dictionary<string, Dictionary<int, ModTextureEntry>> DiffuseTexturesOreStages = new Dictionary<string, Dictionary<int, ModTextureEntry>>();
         public static Dictionary<string, Dictionary<int, ModTextureEntry>> NormalTexturesOreStages = new Dictionary<string, Dictionary<int, ModTextureEntry>>();
 
-		public static int NextTextureSpriteId = 392;
+		public static int NextTextureSpriteId = 14 * 28; //14 * 28 = 392
         public static TextureMode TextureDefinition = TextureMode.SD;
 		public static bool bOverrideSetUVCalls = false;
         public static bool bSwitchToHD = false;
@@ -78,49 +78,49 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
         {
             foreach (KeyValuePair<string, ModTextureEntry> modTextureEntry in DiffuseTexturesAll)
             {
-				UnityEngine.Object.Destroy(modTextureEntry.Value.texture);
+				UnityEngine.Object.DestroyImmediate(modTextureEntry.Value.texture);
 			}
             DiffuseTexturesAll.Clear();
 
 			foreach (KeyValuePair<string, ModTextureEntry> modTextureEntry in DiffuseTexturesBottom)
             {
-                UnityEngine.Object.Destroy(modTextureEntry.Value.texture);
+                UnityEngine.Object.DestroyImmediate(modTextureEntry.Value.texture);
 			}
             DiffuseTexturesBottom.Clear();
 
 			foreach (KeyValuePair<string, ModTextureEntry> modTextureEntry in DiffuseTexturesSide)
             {
-                UnityEngine.Object.Destroy(modTextureEntry.Value.texture);
+                UnityEngine.Object.DestroyImmediate(modTextureEntry.Value.texture);
 			}
             DiffuseTexturesSide.Clear();
 
 			foreach (KeyValuePair<string, ModTextureEntry> modTextureEntry in DiffuseTexturesTop)
             {
-                UnityEngine.Object.Destroy(modTextureEntry.Value.texture);
+                UnityEngine.Object.DestroyImmediate(modTextureEntry.Value.texture);
 			}
             DiffuseTexturesTop.Clear();
 
 			foreach (KeyValuePair<string, ModTextureEntry> modTextureEntry in NormalTexturesAll)
             {
-                UnityEngine.Object.Destroy(modTextureEntry.Value.texture);
+                UnityEngine.Object.DestroyImmediate(modTextureEntry.Value.texture);
 			}
             NormalTexturesAll.Clear();
 
 			foreach (KeyValuePair<string, ModTextureEntry> modTextureEntry in NormalTexturesBottom)
             {
-                UnityEngine.Object.Destroy(modTextureEntry.Value.texture);
+                UnityEngine.Object.DestroyImmediate(modTextureEntry.Value.texture);
 			}
             NormalTexturesBottom.Clear();
 
 			foreach (KeyValuePair<string, ModTextureEntry> modTextureEntry in NormalTexturesSide)
             {
-                UnityEngine.Object.Destroy(modTextureEntry.Value.texture);
+                UnityEngine.Object.DestroyImmediate(modTextureEntry.Value.texture);
 			}
             NormalTexturesSide.Clear();
 
 			foreach (KeyValuePair<string, ModTextureEntry> modTextureEntry in NormalTexturesTop)
             {
-                UnityEngine.Object.Destroy(modTextureEntry.Value.texture);
+                UnityEngine.Object.DestroyImmediate(modTextureEntry.Value.texture);
 			}
             NormalTexturesTop.Clear();
             
@@ -128,7 +128,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             {
                 foreach (KeyValuePair<int, ModTextureEntry> modTextureEntry in diffuseTexturesOreStage.Value)
                 {
-					UnityEngine.Object.Destroy(modTextureEntry.Value.texture);
+					UnityEngine.Object.DestroyImmediate(modTextureEntry.Value.texture);
 				}
                 diffuseTexturesOreStage.Value.Clear();
             }
@@ -138,7 +138,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             {
 				foreach (KeyValuePair<int, ModTextureEntry> modTextureEntry in normalTexturesOreStage.Value)
                 {
-                    UnityEngine.Object.Destroy(modTextureEntry.Value.texture);
+                    UnityEngine.Object.DestroyImmediate(modTextureEntry.Value.texture);
 				}
                 normalTexturesOreStage.Value.Clear();
 			}
@@ -318,7 +318,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         diffuseTmp.Apply();
 
                         RenderTexture.active = originalRenderTexture;
-                        UnityEngine.Object.Destroy(rt);
+                        UnityEngine.Object.DestroyImmediate(rt);
                     }
 
                     tmp = SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap") as Texture2D;
@@ -339,7 +339,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         normalTmp.Apply();
 
                         RenderTexture.active = originalRenderTexture;
-						UnityEngine.Object.Destroy(rt);
+						UnityEngine.Object.DestroyImmediate(rt);
 					}
                 }
                 catch (Exception ex)
@@ -674,9 +674,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
 
             ProcessOreTextures(DiffuseTexturesOreStages, NormalTexturesOreStages);
-
-
-
+            
             mDiffuseTexture.Apply();
 			mNormalTexture.Apply();
             
@@ -686,9 +684,9 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
 			//Finalise to the GPU. From here on, We cannot read it anymore.
 			mDiffuseTexture.Compress(true);
-			mDiffuseTexture.Apply(true, true);
+			mDiffuseTexture.Apply(false, true);
             mNormalTexture.Compress(true);
-			mNormalTexture.Apply(true, true);
+			mNormalTexture.Apply(false, true);
         }
 
         static void ProcessTextures(Dictionary<string, ModTextureEntry> dictionaryDiffuse, Dictionary<string, ModTextureEntry> dictionaryNormal, TextureSide textureSide)
@@ -709,8 +707,6 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
                     //Entry to set.
                     TerrainDataEntry entry = TerrainData.mEntriesByKey[key];
-
-                    dictionaryDiffuse[key].UpscaleAsNeeded();
 
 					if (bNeedsNewID)
                     {
@@ -745,8 +741,10 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
                     Rect target = SegmentMeshCreator.instance.mMeshRenderer.segmentUVCoord.GetSprite(slot);
 
-                    //Process for Diffuse
-                    Texture2D newSprite = dictionaryDiffuse[key].texture;
+					//Process for Diffuse
+					dictionaryDiffuse[key].UpscaleAsNeeded();
+
+					Texture2D newSprite = dictionaryDiffuse[key].texture;
                     Texture2D targetTexture = mDiffuseTexture;
 
                     var ypos = targetTexture.height - ((int) target.y - halfPaddingSize);
@@ -754,16 +752,18 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     //Correction.
                     ypos = ypos - textureSize;
 
-                    targetTexture.SetPixels((int) target.x - halfPaddingSize, ypos, textureSize, textureSize, newSprite.GetPixels());
 
-                    //Process Normal
-                    if (dictionaryNormal.ContainsKey(key))
+					targetTexture.SetPixels((int) target.x - halfPaddingSize, ypos, textureSize, textureSize, newSprite.GetPixels());
+
+					//Process Normal
+					if (dictionaryNormal.ContainsKey(key))
                     {
                         dictionaryNormal[key].UpscaleAsNeeded();
 						Texture2D newNormalSprite = dictionaryNormal[key].texture;
                         targetTexture = mNormalTexture;
                         targetTexture.SetPixels((int)target.x - halfPaddingSize, ypos, textureSize, textureSize, newNormalSprite.GetPixels());
-                        UnityEngine.Object.Destroy(newNormalSprite);
+
+						UnityEngine.Object.DestroyImmediate(newNormalSprite);
 					}
 
                     if (bNeedsNewID)
@@ -796,7 +796,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         }
                     }
 
-                    UnityEngine.Object.Destroy(newSprite);
+                    UnityEngine.Object.DestroyImmediate(newSprite);
                 }
                 catch (Exception exception)
                 {
@@ -821,7 +821,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
                 if (dictionaryNormal.ContainsKey(terrainKey))
                 {
-                    stagesNormal = dictionaryNormal[terrainKey];
+					stagesNormal = dictionaryNormal[terrainKey];
                 }
 
 				foreach (KeyValuePair<int, ModTextureEntry> keyValuePair in stagesDiffuse)
@@ -835,8 +835,6 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         TerrainDataEntry terrainDataEntry = TerrainData.mEntriesByKey[terrainKey];
                         TerrainDataStageEntry entry = terrainDataEntry.Stages[keyValuePair.Key];
 
-						keyValuePair.Value.UpscaleAsNeeded();
-
 						if (bNeedsNewID)
                         {
                             slot = NextTextureSpriteId++;
@@ -848,8 +846,9 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
                         Rect target = SegmentMeshCreator.instance.mMeshRenderer.segmentUVCoord.GetSprite(slot);
 
-                        //Process for Diffuse
-                        Texture2D newSprite = stagesDiffuse[key].texture;
+						//Process for Diffuse
+						stagesDiffuse[key].UpscaleAsNeeded();
+						Texture2D newSprite = stagesDiffuse[key].texture;
                         Texture2D targetTexture = mDiffuseTexture;
 
                         var ypos = targetTexture.height - ((int)target.y - halfPaddingSize);
@@ -862,10 +861,11 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         //Process Normal
                         if (stagesNormal != null && stagesNormal.ContainsKey(key))
                         {
-                            Texture2D newNormalSprite = stagesNormal[key].texture;
+                            stagesNormal[key].UpscaleAsNeeded();
+							Texture2D newNormalSprite = stagesNormal[key].texture;
                             targetTexture = mNormalTexture;
                             targetTexture.SetPixels((int)target.x - halfPaddingSize, ypos, textureSize, textureSize, newNormalSprite.GetPixels());
-                            UnityEngine.Object.Destroy(newNormalSprite);
+                            UnityEngine.Object.DestroyImmediate(newNormalSprite);
 						}
 
                         if (bNeedsNewID)
@@ -875,7 +875,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                             entry.BottomTexture = slot;
 						}
 
-						UnityEngine.Object.Destroy(newSprite);
+						UnityEngine.Object.DestroyImmediate(newSprite);
 					}
                     catch (Exception exception)
                     {
@@ -926,7 +926,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             HD = 292
         }
 
-        public struct ModTextureEntry
+        public class ModTextureEntry
         {
             public string filePath;
             public TextureSize Size;
@@ -961,7 +961,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                 if (texture.width != texture.height)
                 {
                     Size = TextureSize.Invalid;
-                    UnityEngine.Object.Destroy(texture);
+                    UnityEngine.Object.DestroyImmediate(texture);
                     texture = null;
                 }
                 else
@@ -993,7 +993,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         default:
                         {
                             Size = TextureSize.Invalid;
-                            UnityEngine.Object.Destroy(texture);
+                            UnityEngine.Object.DestroyImmediate(texture);
                             texture = null;
 							break;
                         }
@@ -1011,19 +1011,31 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                 {
                     Pad();
                     Size = TextureSize.SD146;
+                    if (texture.width != 146)
+                    {
+                        Debug.LogError("PADDING FAILED TEXTURE NOT SD146");
+                    }
                 }
 
                 if (Size == TextureSize.SD146 && TextureDefinition == TextureMode.HD)
                 {
                     Upscale();
                     Size = TextureSize.HD292;
-                }
+                    if (texture.width != 292)
+                    {
+                        Debug.LogError("UPSCALE FAILED TEXTURE NOT HD292");
+                    }
+				}
 
                 if (Size == TextureSize.HD256 && TextureDefinition == TextureMode.HD)
                 {
                     PadHD();
                     Size = TextureSize.HD292;
-                }
+                    if (texture.width != 292)
+                    {
+                        Debug.LogError("PADDING FAILED TEXTURE NOT HD292");
+                    }
+				}
 			}
 
             private void Upscale()
@@ -1053,16 +1065,16 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         newImage.SetPixel(x, y, Color.black);
                     }
                 }
-
-                for (int x = 0; x < sourceSize; x++)
+				
+				for (int x = 0; x < sourceSize; x++)
                 {
                     for (int y = 0; y < sourceSize; y++)
                     {
                         newImage.SetPixel(x + halfPaddingSize, y + halfPaddingSize, image.GetPixel(x, y));
                     }
-                }
+				}
 
-                int farOffset = farOffsetSize;
+				int farOffset = farOffsetSize;
                 int farOffset2 = farOffset - 1;
 
                 //////Ok build the blur.
@@ -1082,8 +1094,9 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         newImage.SetPixel(x, y, newImage.GetPixel(totalPaddingSize - x, y));
                         newImage.SetPixel(farOffset + x, y, newImage.GetPixel(farOffset2 - x, y));
                     }
-                }
-                texture = newImage;
+				}
+                UnityEngine.Object.DestroyImmediate(texture);
+				texture = newImage._Texture2D;
 			}
 
             private void PadHD()
@@ -1138,6 +1151,8 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 						newImage.SetPixel(farOffset + x, y, newImage.GetPixel(farOffset2 - x, y));
 					}
 				}
+
+                UnityEngine.Object.DestroyImmediate(texture);
 				texture = newImage;
 			}
 
