@@ -64,6 +64,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     TextureDefinition = TextureMode.HD;
 					TextureScale.Point(mDiffuseTexture, mDiffuseTexture.width * 2, mDiffuseTexture.height * 2);
                     TextureScale.Point(mNormalTexture, mNormalTexture.width * 2, mNormalTexture.height * 2);
+                    SetTerrainTextures();
 				}
 
                 StitchTexturesAndAssignIDs();
@@ -692,7 +693,14 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
         static void ProcessTextures(Dictionary<string, ModTextureEntry> dictionaryDiffuse, Dictionary<string, ModTextureEntry> dictionaryNormal, TextureSide textureSide)
         {
-            var slot = -1;
+            int textureSize = (int)TerrainStitcher.TextureDefinition;
+            int unpaddedSize = (TextureDefinition == TextureMode.SD? (int)TextureSize.SD128 : (int)TextureSize.HD256);
+
+			int totalPaddingSize = textureSize - unpaddedSize;
+            int halfPaddingSize = totalPaddingSize / 2;
+            
+
+			var slot = -1;
             foreach (var key in dictionaryDiffuse.Keys)
             {
                 try
@@ -741,12 +749,12 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     Texture2D newSprite = dictionaryDiffuse[key].texture;
                     Texture2D targetTexture = mDiffuseTexture;
 
-                    var ypos = targetTexture.height - ((int) target.y - 9);
+                    var ypos = targetTexture.height - ((int) target.y - halfPaddingSize);
 
                     //Correction.
-                    ypos = ypos - 146;
+                    ypos = ypos - textureSize;
 
-                    targetTexture.SetPixels((int) target.x - 9, ypos, 146, 146, newSprite.GetPixels());
+                    targetTexture.SetPixels((int) target.x - halfPaddingSize, ypos, textureSize, textureSize, newSprite.GetPixels());
 
                     //Process Normal
                     if (dictionaryNormal.ContainsKey(key))
@@ -754,7 +762,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         dictionaryNormal[key].UpscaleAsNeeded();
 						Texture2D newNormalSprite = dictionaryNormal[key].texture;
                         targetTexture = mNormalTexture;
-                        targetTexture.SetPixels((int)target.x - 9, ypos, 146, 146, newNormalSprite.GetPixels());
+                        targetTexture.SetPixels((int)target.x - halfPaddingSize, ypos, textureSize, textureSize, newNormalSprite.GetPixels());
                         UnityEngine.Object.Destroy(newNormalSprite);
 					}
 
@@ -799,6 +807,12 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
 		static void ProcessOreTextures(Dictionary<string, Dictionary<int, ModTextureEntry>> dictionaryDiffuse, Dictionary<string, Dictionary<int, ModTextureEntry>> dictionaryNormal)
 		{
+            int textureSize = (int)TerrainStitcher.TextureDefinition;
+            int unpaddedSize = (TextureDefinition == TextureMode.SD ? (int)TextureSize.SD128 : (int)TextureSize.HD256);
+
+            int totalPaddingSize = textureSize - unpaddedSize;
+            int halfPaddingSize = totalPaddingSize / 2;
+
 			var slot = -1;
 			foreach (var terrainKey in dictionaryDiffuse.Keys)
             {
@@ -838,19 +852,19 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         Texture2D newSprite = stagesDiffuse[key].texture;
                         Texture2D targetTexture = mDiffuseTexture;
 
-                        var ypos = targetTexture.height - ((int)target.y - 9);
+                        var ypos = targetTexture.height - ((int)target.y - halfPaddingSize);
 
                         //Correction.
-                        ypos = ypos - 146;
+                        ypos = ypos - textureSize;
 
-                        targetTexture.SetPixels((int)target.x - 9, ypos, 146, 146, newSprite.GetPixels());
+                        targetTexture.SetPixels((int)target.x - halfPaddingSize, ypos, textureSize, textureSize, newSprite.GetPixels());
 
                         //Process Normal
                         if (stagesNormal != null && stagesNormal.ContainsKey(key))
                         {
                             Texture2D newNormalSprite = stagesNormal[key].texture;
                             targetTexture = mNormalTexture;
-                            targetTexture.SetPixels((int)target.x - 9, ypos, 146, 146, newNormalSprite.GetPixels());
+                            targetTexture.SetPixels((int)target.x - halfPaddingSize, ypos, textureSize, textureSize, newNormalSprite.GetPixels());
                             UnityEngine.Object.Destroy(newNormalSprite);
 						}
 
@@ -908,8 +922,8 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
         public enum TextureMode
         {
-            SD,
-            HD
+            SD = 146,
+            HD = 292
         }
 
         public struct ModTextureEntry

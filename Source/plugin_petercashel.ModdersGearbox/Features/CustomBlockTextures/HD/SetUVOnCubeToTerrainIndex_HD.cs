@@ -194,8 +194,8 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.HD
 			float num8 = (float)num7 / lnMatPiy;
 			num8 = 1f - num8;
 			SetUVOnCubeToTerrainIndex_HD.mpb.Clear();
-			SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_MainTex_ST", new Vector4(0.0714285746f, 0.0714285746f, z, num8));
-			SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_BumpMap_ST", new Vector4(0.0714285746f, 0.0714285746f, z, num8));
+			SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_MainTex_ST", new Vector4(0.0357142873f, 0.0357142873f, z, num8));
+			SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_BumpMap_ST", new Vector4(0.0357142873f, 0.0357142873f, z, num8));
 			lRenderer.SetPropertyBlock(SetUVOnCubeToTerrainIndex_HD.mpb);
 		}
 
