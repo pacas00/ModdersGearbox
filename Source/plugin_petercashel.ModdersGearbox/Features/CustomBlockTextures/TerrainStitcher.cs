@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Harmony;
 using plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.HD;
 using plugin_petercashel_ModdersGearbox.Support.Image;
 using UnityEngine;
@@ -269,6 +270,28 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                 SetUVOnCubeToTerrainIndex_HD.cubeMaterial.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
                 SetUVOnCubeToTerrainIndex_HD.cubeMaterial.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
             }
+
+            if (SurvivalDigScript.instance != null)
+            {
+                try
+                {
+                    Traverse traverse = Traverse.Create(SurvivalDigScript.instance);
+                    var particleSystem = traverse.Field("DigParticles").GetValue<ParticleSystem>();
+
+                    if (particleSystem != null)
+                    {
+                        var renderer = particleSystem.GetComponent<Renderer>();
+                        renderer.material.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
+                        renderer.material.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //Something broke.
+                    Debug.LogException(ex);
+                }
+			}
+
 		}
 
 		static void LoadAndExtendTextureSheets()

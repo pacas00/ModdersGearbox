@@ -35,7 +35,6 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.Patches
                 WorldScript.instance == null)
                 return;
 
-			bTexturesSet = true;
 
 			try
             {
@@ -47,12 +46,14 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.Patches
                     var renderer = particleSystem.GetComponent<Renderer>();
                     renderer.material.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
                     renderer.material.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
-                }
+                    bTexturesSet = true;
+				}
             }
             catch (Exception ex)
             {
                 //Something broke.
                 Debug.LogException(ex);
+                bTexturesSet = false;
             }
 		}
 	}
