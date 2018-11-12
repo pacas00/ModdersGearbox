@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.HD;
 using plugin_petercashel_ModdersGearbox.Support.Image;
 using UnityEngine;
 
@@ -256,9 +257,21 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                 material.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
                 info.SetValue(null, material);
             }
-        }
 
-        static void LoadAndExtendTextureSheets()
+            if (SetUVOnCubeToTerrainIndex_SD.cubeMaterial != null)
+            {
+                SetUVOnCubeToTerrainIndex_SD.cubeMaterial.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
+                SetUVOnCubeToTerrainIndex_SD.cubeMaterial.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
+            }
+
+            if (SetUVOnCubeToTerrainIndex_HD.cubeMaterial != null)
+            {
+                SetUVOnCubeToTerrainIndex_HD.cubeMaterial.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
+                SetUVOnCubeToTerrainIndex_HD.cubeMaterial.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
+            }
+		}
+
+		static void LoadAndExtendTextureSheets()
         {
             //throw new NotImplementedException();
             Texture2D diffuseTmp = null;

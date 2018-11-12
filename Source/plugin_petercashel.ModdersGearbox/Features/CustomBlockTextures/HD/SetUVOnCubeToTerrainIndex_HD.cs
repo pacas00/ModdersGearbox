@@ -18,6 +18,12 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.HD
 			MeshRenderer component2 = cube.transform.GetComponent<MeshRenderer>();
 			SetUVOnCubeToTerrainIndex_HD.cubeMaterial = component2.material;
 			SetUVOnCubeToTerrainIndex_HD.mpb = new MaterialPropertyBlock();
+
+            if (cubeMaterial != null && TerrainStitcher.bOverrideSetUVCalls)
+            {
+                cubeMaterial.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
+                cubeMaterial.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
+			}
 		}
 
 		// Token: 0x0600374E RID: 14158 RVA: 0x00239960 File Offset: 0x00237B60
@@ -194,8 +200,17 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.HD
 			float num8 = (float)num7 / lnMatPiy;
 			num8 = 1f - num8;
 			SetUVOnCubeToTerrainIndex_HD.mpb.Clear();
-			SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_MainTex_ST", new Vector4(0.0357142873f, 0.0357142873f, z, num8));
-			SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_BumpMap_ST", new Vector4(0.0357142873f, 0.0357142873f, z, num8));
+			//SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_MainTex_ST", new Vector4(0.0714285746f, 0.0714285746f, z, num8));
+			//SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_BumpMap_ST", new Vector4(0.0714285746f, 0.0714285746f, z, num8));
+            SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_MainTex_ST", new Vector4(lrUVSizeX, lrUVSizeY, z, num8));
+            SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_BumpMap_ST", new Vector4(lrUVSizeX, lrUVSizeY, z, num8));
+
+            if (lRenderer.material.mainTexture.height != SegmentMeshCreator.instance.mMeshRenderer.materialHeight)
+            {
+                lRenderer.material.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
+                lRenderer.material.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
+            }
+
 			lRenderer.SetPropertyBlock(SetUVOnCubeToTerrainIndex_HD.mpb);
 		}
 
