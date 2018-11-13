@@ -12,6 +12,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.Patches
 	{
 		static bool Prefix(GameObject cube)
         {
+            if (!TerrainStitcher.bNeedsToStitch) return true;
             if (!TerrainStitcher.bOverrideSetUVCalls)
             {
                 SetUVOnCubeToTerrainIndex_SD.StoreCubeMesh(cube);

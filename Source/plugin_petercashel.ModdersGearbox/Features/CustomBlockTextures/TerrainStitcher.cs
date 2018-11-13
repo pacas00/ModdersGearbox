@@ -38,6 +38,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
         public static TextureMode TextureDefinition = TextureMode.SD;
 		public static bool bOverrideSetUVCalls = false;
         public static bool bSwitchToHD = false;
+        public static bool bNeedsToStitch = false;
 
 		#endregion
 
@@ -54,25 +55,29 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     return;
                 }
 
-                LoadAndExtendTextureSheets();
-				SetTerrainTextures();
-                
-                bOverrideSetUVCalls = true;
+                FindAllTextures();
 
-				FindAllTextures();
-
-                if (bSwitchToHD && TextureDefinition == TextureMode.SD)
+                if (bNeedsToStitch)
                 {
-                    TextureDefinition = TextureMode.HD;
-					TextureScale.Point(mDiffuseTexture, mDiffuseTexture.width * 2, mDiffuseTexture.height * 2);
-                    TextureScale.Point(mNormalTexture, mNormalTexture.width * 2, mNormalTexture.height * 2);
+                    LoadAndExtendTextureSheets();
                     SetTerrainTextures();
+
+                    bOverrideSetUVCalls = true;
+                    
+
+                    if (bSwitchToHD && TextureDefinition == TextureMode.SD)
+                    {
+                        TextureDefinition = TextureMode.HD;
+                        TextureScale.Point(mDiffuseTexture, mDiffuseTexture.width * 2, mDiffuseTexture.height * 2);
+                        TextureScale.Point(mNormalTexture, mNormalTexture.width * 2, mNormalTexture.height * 2);
+                        SetTerrainTextures();
+                    }
+
+                    StitchTexturesAndAssignIDs();
+                    SetTerrainTextures();
+
+                    PurgeTempTexture();
 				}
-
-                StitchTexturesAndAssignIDs();
-                SetTerrainTextures();
-
-                PurgeTempTexture();
 			}
         }
 
@@ -541,7 +546,10 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     {
                         foreach (var path2 in Directory.GetFiles(pathDiffuse, "*.png"))
                         {
-                            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(path2);
+                            //We have at least one file if we are in this loop
+                            bNeedsToStitch = true;
+
+							var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(path2);
 
                             var key = fileNameWithoutExtension;
 
@@ -621,7 +629,10 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     {
                         foreach (var path2 in Directory.GetFiles(pathNormal, "*.png"))
                         {
-                            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(path2);
+                            //We have at least one file if we are in this loop
+                            bNeedsToStitch = true;
+
+							var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(path2);
                             var key = fileNameWithoutExtension;
 
                             if (fileNameWithoutExtension.ToLower().Contains("_top"))
