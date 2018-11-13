@@ -199,7 +199,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             //And fix everything.
 
             Type type = typeof(SetUVOnCubeToTerrainIndex);
-            FieldInfo info = type.GetField("cubeMaterial", BindingFlags.NonPublic | BindingFlags.Static);
+            FieldInfo info = type.GetField("cubeMaterial", AccessTools.all);
             object value = info.GetValue(null);
 
             var material = value as Material;
@@ -236,7 +236,16 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
 				tmp = TerrainUV.lnMatPiy / 292;
                 TerrainUV.lnTilesY = (int)tmp;
+
+                Type type2 = typeof(TerrainUV);
+                type2.GetField("lnTilePix", BindingFlags.NonPublic | BindingFlags.Static).SetValue(null, 256);
+                type2.GetField("lnTotalPix", BindingFlags.NonPublic | BindingFlags.Static).SetValue(null, 292);
+                type2.GetField("lnGutter", BindingFlags.NonPublic | BindingFlags.Static).SetValue(null, 292 - 256);
 			}
+
+            //private static int lnTilePix = 128;
+            //private static int lnTotalPix = 146;
+            //private static int lnGutter = TerrainUV.lnTotalPix - TerrainUV.lnTilePix;
 
 
             SegmentMeshCreator.instance.currentMaterialWidth = SegmentMeshCreator.instance.segmentMaterial.mainTexture.width;
@@ -257,19 +266,9 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                 material.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
                 material.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
                 info.SetValue(null, material);
-            }
-
-            if (SetUVOnCubeToTerrainIndex_SD.cubeMaterial != null)
-            {
-                SetUVOnCubeToTerrainIndex_SD.cubeMaterial.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
-                SetUVOnCubeToTerrainIndex_SD.cubeMaterial.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
-            }
-
-            if (SetUVOnCubeToTerrainIndex_HD.cubeMaterial != null)
-            {
-                SetUVOnCubeToTerrainIndex_HD.cubeMaterial.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
-                SetUVOnCubeToTerrainIndex_HD.cubeMaterial.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
-            }
+                SetUVOnCubeToTerrainIndex_SD.cubeMaterial = material;
+                SetUVOnCubeToTerrainIndex_HD.cubeMaterial = material;
+			}
 
             if (SurvivalDigScript.instance != null)
             {

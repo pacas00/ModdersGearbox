@@ -29,11 +29,11 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.HD
 		// Token: 0x0600374E RID: 14158 RVA: 0x00239960 File Offset: 0x00237B60
 		public static void SetCustom(CustomObjectDesign design, GameObject lCubeObject)
 		{
-			SegmentMeshCreator.instance.RenderCustomDesign(design, ref SetUVOnCubeToTerrainIndex_SD.customMeshes, ref SetUVOnCubeToTerrainIndex_SD.customMaterials);
+			SegmentMeshCreator.instance.RenderCustomDesign(design, ref SetUVOnCubeToTerrainIndex.customMeshes, ref SetUVOnCubeToTerrainIndex.customMaterials);
 			MeshFilter component = lCubeObject.transform.GetComponent<MeshFilter>();
-			component.mesh = SetUVOnCubeToTerrainIndex_SD.customMeshes[0];
+			component.mesh = SetUVOnCubeToTerrainIndex.customMeshes[0];
 			MeshRenderer component2 = lCubeObject.transform.GetComponent<MeshRenderer>();
-			component2.material = SetUVOnCubeToTerrainIndex_SD.customMaterials[0];
+			component2.material = SetUVOnCubeToTerrainIndex.customMaterials[0];
 			SetUVOnCubeToTerrainIndex_SD.mpb.SetColor("_Color", Color.white);
 			component2.SetPropertyBlock(SetUVOnCubeToTerrainIndex_SD.mpb);
 		}
@@ -185,33 +185,46 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.HD
 		// Token: 0x06003753 RID: 14163 RVA: 0x00239DC0 File Offset: 0x00237FC0
 		public static void SetMaterialUV(Renderer lRenderer, int lnWhich, ushort lValue, bool lbDoBump)
 		{
-			int num = 146;
-			int num2 = 0;
-			int num3 = 28;
-			int sideTexture = global::TerrainData.GetSideTexture(lnWhich, lValue);
-			int num4 = sideTexture % num3;
-			int num5 = sideTexture / num3;
-			int num6 = num * num4;
-			int num7 = num * num5;
-			num6 += num2;
-			num7 -= num2;
-			num7 += num;
-			float z = (float)num6 / lnMatPix;
-			float num8 = (float)num7 / lnMatPiy;
-			num8 = 1f - num8;
-			SetUVOnCubeToTerrainIndex_SD.mpb.Clear();
-			//SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_MainTex_ST", new Vector4(0.0714285746f, 0.0714285746f, z, num8));
-			//SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_BumpMap_ST", new Vector4(0.0714285746f, 0.0714285746f, z, num8));
-			SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_MainTex_ST", new Vector4(lrUVSizeX, lrUVSizeY, z, num8));
-            SetUVOnCubeToTerrainIndex_HD.mpb.SetVector("_BumpMap_ST", new Vector4(lrUVSizeX, lrUVSizeY, z, num8));
+            //Original DJ code, modified for MG
 
-            if (lRenderer.material.mainTexture.height != SegmentMeshCreator.instance.mMeshRenderer.materialHeight)
+            int lnTotalPix = 146; //and-a-bit
+            int lnGutter = 9;     //9;//ermlnTotalPix - lnTilePix;
+
+            int lnTiles = 28; //DJ value is 14, our sheets are 2x the width
+            int lnCubeId = TerrainData.GetSideTexture(lnWhich, lValue);
+
+            int lnXTile = (lnCubeId % lnTiles);
+            int lnYTile = (lnCubeId / lnTiles);
+
+            int lnPixX = lnTotalPix * lnXTile;
+            int lnPixY = lnTotalPix * lnYTile;
+
+            //add in gutter so that we start in the top left of the inner 128 tile
+            lnPixX += lnGutter;
+            lnPixY -= lnGutter;
+            lnPixY += lnTotalPix; //due to inversion when converting to UVs
+
+            //convert pixels into UVs
+            float lrX = lnPixX / TerrainUV.lnMatPix;
+            float lrY = lnPixY / TerrainUV.lnMatPiy;
+
+            lrY = (1.0f - lrY);
+            mpb.Clear();
+
+            float fNoGutter = 1.0f / 28.0f;
+            float fGutter = (fNoGutter / lnTotalPix) * (lnTotalPix - (lnGutter * 2));
+
+			mpb.SetVector("_MainTex_ST", new Vector4(fGutter, fGutter, lrX, lrY));
+            mpb.SetVector("_BumpMap_ST", new Vector4(fGutter, fGutter, lrX, lrY));
+
+            lRenderer.SetPropertyBlock(mpb);
+
+            if (lRenderer?.material?.mainTexture?.height != SegmentMeshCreator.instance?.mMeshRenderer?.materialHeight ||
+				lRenderer?.material?.mainTexture?.width != SegmentMeshCreator.instance?.mMeshRenderer?.materialWidth)
             {
                 lRenderer.material.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
                 lRenderer.material.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
             }
-
-			lRenderer.SetPropertyBlock(SetUVOnCubeToTerrainIndex_SD.mpb);
 		}
 
 		// Token: 0x06003754 RID: 14164 RVA: 0x00239E84 File Offset: 0x00238084
@@ -369,12 +382,6 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.HD
 
 		// Token: 0x04004D41 RID: 19777
 		public static Material cubeMaterial;
-
-		// Token: 0x04004D42 RID: 19778
-		public static Mesh[] customMeshes;
-
-		// Token: 0x04004D43 RID: 19779
-		public static Material[] customMaterials;
 
 		// Token: 0x04004D44 RID: 19780
 		public static MaterialPropertyBlock mpb;
