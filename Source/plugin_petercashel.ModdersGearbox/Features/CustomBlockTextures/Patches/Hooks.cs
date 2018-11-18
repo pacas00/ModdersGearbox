@@ -15,53 +15,46 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.Patches
 			TerrainStitcher.Build();
 		}
 	}
-	
-	[HarmonyPatch(typeof(SetUVOnCubeToTerrainIndex))]
-	[HarmonyPatch("SetMaterialUV")]
-	class SetUVOnCubeToTerrainIndexPatch_SetMaterialUV
-	{
-		static bool Prefix(Renderer lRenderer, int lnWhich, ushort lValue, bool lbDoBump)
+
+    //When the script starts up, should grab the new textures.
+    [HarmonyPatch(typeof(SurvivalDigScript))]
+	[HarmonyPatch("Update")]
+	class SurvivalDigScriptPatch_Update
+    {
+        public static bool bTexturesSet = false;
+
+		static void Postfix(SurvivalDigScript __instance)
 		{
-			SetMaterialUV(lRenderer, lnWhich, lValue, lbDoBump);
-			return false;
-		}
-	
-		public static void SetMaterialUV(Renderer lRenderer, int lnWhich, ushort lValue, bool lbDoBump)
-		{
-			int num = 146;
-			int num2 = 0;
-			int num3 = 14;
-			int sideTexture = global::TerrainData.GetSideTexture(lnWhich, lValue);
-			int num4 = sideTexture % num3;
-			int num5 = sideTexture / num3;
-			float num8 = (float)(num * num4);
-			int num6 = num * num5;
-			float num9 = num8 + (float)num2;
-			num6 -= num2;
-			num6 += num;
-			float z = num9 / TerrainUV.lnMatPix;
-			float num7 = (float)num6 / TerrainUV.lnMatPiy;
-			num7 = 1f - num7;
+            if (bTexturesSet || !TerrainStitcher.bNeedsToStitch)
+            {
+                return;
+            }
 
-			Type type = typeof(SetUVOnCubeToTerrainIndex);
-			FieldInfo info = type.GetField("mpb", BindingFlags.NonPublic | BindingFlags.Static);
-			object value = info.GetValue(null);
+            if (PersistentSettings.mbHeadlessServer || GameState.State != GameStateEnum.Playing ||
+                WorldScript.mLocalPlayer == null ||
+                WorldScript.instance == null)
+                return;
 
-			MaterialPropertyBlock mpb = value as MaterialPropertyBlock;
 
-			//TODO, Load original texture sheet as from game and use its height instead of hardcoding.
+			try
+            {
+                Traverse traverse = Traverse.Create(__instance);
+                var particleSystem = traverse.Field("DigParticles").GetValue<ParticleSystem>();
 
-			mpb.Clear();
-			mpb.SetVector("_MainTex_ST", new Vector4(0.0714285746f, 0.0357142873f / (TerrainUV.lnMatPiy / 4088), z, num7));
-			mpb.SetVector("_BumpMap_ST", new Vector4(0.0714285746f, 0.0357142873f / (TerrainUV.lnMatPiy / 4088), z, num7));
-
-			if (lRenderer.material.mainTexture.height != SegmentMeshCreator.instance.mMeshRenderer.materialHeight)
-			{
-				lRenderer.material.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
-				lRenderer.material.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
-			}
-			
-			lRenderer.SetPropertyBlock(mpb);
+                if (particleSystem != null)
+                {
+                    var renderer = particleSystem.GetComponent<Renderer>();
+                    renderer.material.mainTexture = SegmentMeshCreator.instance.segmentMaterial.mainTexture;
+                    renderer.material.SetTexture("_BumpMap", SegmentMeshCreator.instance.segmentMaterial.GetTexture("_BumpMap"));
+                    bTexturesSet = true;
+				}
+            }
+            catch (Exception ex)
+            {
+                //Something broke.
+                Debug.LogException(ex);
+                bTexturesSet = false;
+            }
 		}
 	}
 }

@@ -52,7 +52,8 @@ namespace plugin_petercashel_ModdersGearbox
         public void Awake()
         {
             Harmony();
-        }
+            ModdersGearboxMain.Awake();
+		}
 
         public void Start()
         {
@@ -70,8 +71,18 @@ namespace plugin_petercashel_ModdersGearbox
             UtilClass.WriteLine("Loaded! Using data directory " + mWorkingDir);
             mInitalised = true;
             mIsRunning = true;
-        }
+            ModdersGearboxMain.Start();
+		}
 
+		public override void LowFrequencyUpdate()
+        {
+            ModdersGearboxMain.LowFrequencyUpdate();
+		}
+
+        public void Update()
+        {
+            ModdersGearboxMain.Update();
+		}
         #endregion
     }
 }
