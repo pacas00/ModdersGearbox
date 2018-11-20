@@ -74,23 +74,26 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\TerrainGen_BlockReplacement\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Debug (
-pdb2mdb.exe plugin_petercashel.ModdersGearbox.dll
+	pdb2mdb.exe plugin_petercashel.ModdersGearbox.dll
 )
 
 if %25ComputerName%25 == PETERCASHEL-PC (
 
-if $(ConfigurationName) == Debug (
-copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll" /Y
-copy plugin_petercashel.ModdersGearbox.pdb "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.pdb" /Y
-copy plugin_petercashel.ModdersGearbox.dll.mdb "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll.mdb" /Y
-)
+	if $(ConfigurationName) == Release (
+		copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll" /Y
+	)
 
-if $(ConfigurationName) == Release (
-copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1" /Y
-)
+	if $(ConfigurationName) == Debug (
+		copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll" /Y
+		copy plugin_petercashel.ModdersGearbox.pdb "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.pdb" /Y
+		copy plugin_petercashel.ModdersGearbox.dll.mdb "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll.mdb" /Y
+	)
 
 )</PostBuildEvent>
   </PropertyGroup>
