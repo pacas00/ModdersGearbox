@@ -25,11 +25,21 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWorkshop|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugWorkshop\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
@@ -74,23 +84,35 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\TerrainGen_BlockReplacement\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Debug (
-pdb2mdb.exe plugin_petercashel.ModdersGearbox.dll
+	pdb2mdb.exe plugin_petercashel.ModdersGearbox.dll
+)
+if $(ConfigurationName) == DebugWorkshop (
+	pdb2mdb.exe plugin_petercashel.ModdersGearbox.dll
 )
 
 if %25ComputerName%25 == PETERCASHEL-PC (
 
-if $(ConfigurationName) == Debug (
-copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll" /Y
-copy plugin_petercashel.ModdersGearbox.pdb "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.pdb" /Y
-copy plugin_petercashel.ModdersGearbox.dll.mdb "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll.mdb" /Y
-)
+	if $(ConfigurationName) == Release (
+		copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll" /Y
+	)
 
-if $(ConfigurationName) == Release (
-copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1" /Y
-)
+	if $(ConfigurationName) == Debug (
+		copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll" /Y
+		copy plugin_petercashel.ModdersGearbox.pdb "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.pdb" /Y
+		copy plugin_petercashel.ModdersGearbox.dll.mdb "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll.mdb" /Y
+	)
+
+	if $(ConfigurationName) == DebugWorkshop (
+		copy plugin_petercashel.ModdersGearbox.dll "M:\SteamLibrary\steamapps\workshop\content\254200\1548137276\plugin_petercashel.ModdersGearbox.dll" /Y
+		copy plugin_petercashel.ModdersGearbox.pdb "M:\SteamLibrary\steamapps\workshop\content\254200\1548137276\plugin_petercashel.ModdersGearbox.pdb" /Y
+		copy plugin_petercashel.ModdersGearbox.dll.mdb "M:\SteamLibrary\steamapps\workshop\content\254200\1548137276\plugin_petercashel.ModdersGearbox.dll.mdb" /Y
+	)
 
 )</PostBuildEvent>
   </PropertyGroup>

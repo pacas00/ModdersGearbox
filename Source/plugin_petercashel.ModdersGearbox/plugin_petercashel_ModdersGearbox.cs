@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Harmony;
+using plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.Patches;
 using UnityEngine;
 
 namespace plugin_petercashel_ModdersGearbox
@@ -21,43 +22,41 @@ namespace plugin_petercashel_ModdersGearbox
 
         public plugin_petercashel_ModdersGearbox()
         {
-            Harmony();
+            //Harmony();
         }
 
         #endregion
 
         #region  Methods
 
-        public void Harmony()
+        public void HarmonyPatcher()
         {
             if (_Patched) return;
             _Patched = true;
             _HarmonyInstance = HarmonyInstance.Create(UtilClass.modId);
-            _HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
 
-            foreach (Assembly assemb in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                _HarmonyInstance.PatchAll(assemb);
-            }
+			//PATCH THIS FIRST
 
-            try
-            {
-                Debug.Log(UtilClass.modName + " - Harmony Patching Complete");
-            }
-            catch
-            {
-            }
-        }
+			var original = typeof(SetUVOnCubeToTerrainIndex).GetMethod("SetMaterialUV");
+            var prefix = typeof(SetUVOnCubeToTerrainIndexPatch_SetMaterialUV).GetMethod("Prefix");
+            _HarmonyInstance.Patch(original, new HarmonyMethod(prefix));
 
-        public void Awake()
+			_HarmonyInstance.PatchAll(typeof(plugin_petercashel_ModdersGearbox).Assembly);
+
+            Debug.Log(String.Format("{0} {1}", UtilClass.modName, "- Harmony Patching Complete"));
+		}
+
+		public void Awake()
         {
-            Harmony();
+            HarmonyPatcher();
             ModdersGearboxMain.Awake();
 		}
 
         public void Start()
         {
-            foreach (ModConfiguration current in ModManager.mModConfigurations.Mods)
+            HarmonyPatcher();
+
+			foreach (ModConfiguration current in ModManager.mModConfigurations.Mods)
             {
                 if (current.Id.Contains(UtilClass.modId))
                 {

@@ -8,4 +8,9 @@
     <StartProgram>M:\SteamLibrary\steamapps\common\FortressCraft\64\FC_64_debug.exe</StartProgram>
     <StartWorkingDirectory>M:\SteamLibrary\steamapps\common\FortressCraft\64\</StartWorkingDirectory>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWorkshop|AnyCPU'">
+    <StartProgram>M:\SteamLibrary\steamapps\common\FortressCraft\64\FC_64_debug.exe</StartProgram>
+    <StartWorkingDirectory>M:\SteamLibrary\steamapps\common\FortressCraft\64\</StartWorkingDirectory>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
 </Project>
