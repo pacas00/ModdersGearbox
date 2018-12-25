@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
+using System.Threading;
 using Harmony;
 using plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.HD;
+using plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.XML;
 using plugin_petercashel_ModdersGearbox.Support.Image;
 using UnityEngine;
 
@@ -17,6 +20,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
         static Texture2D mDiffuseTexture;
         static Texture2D mNormalTexture;
+        public static string TextureHashString;
 
 		//Key, File
         public static Dictionary<string, ModTextureEntry> DiffuseTexturesAll = new Dictionary<string, ModTextureEntry>();
@@ -55,6 +59,17 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     return;
                 }
 
+                GetModConfigHash();
+
+                if (LoadExistingSheets())
+                {
+					SetTerrainTextures();
+
+					bOverrideSetUVCalls = true;
+                    SetTerrainTextures();
+					return;
+                }
+
                 FindAllTextures();
 
                 if (bNeedsToStitch)
@@ -68,20 +83,159 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                     if (bSwitchToHD && TextureDefinition == TextureMode.SD)
                     {
                         TextureDefinition = TextureMode.HD;
-                        TextureScale.Point(mDiffuseTexture, mDiffuseTexture.width * 2, mDiffuseTexture.height * 2);
-                        TextureScale.Point(mNormalTexture, mNormalTexture.width * 2, mNormalTexture.height * 2);
+                        TextureScale.Bilinear(mDiffuseTexture, mDiffuseTexture.width * 2, mDiffuseTexture.height * 2);
+                        TextureScale.Bilinear(mNormalTexture, mNormalTexture.width * 2, mNormalTexture.height * 2);
                         SetTerrainTextures();
                     }
 
                     StitchTexturesAndAssignIDs();
-                    SetTerrainTextures();
 
-                    PurgeTempTexture();
+                    SetTerrainTextures(); //Also Exports
+
+                    TextureSlotRegistry.Save();
+
+
+					PurgeTempTexture();
 				}
 			}
         }
 
-        static void PurgeTempTexture()
+		private static bool LoadExistingSheets()
+        {
+			// This method should look for a folder named alike the hash
+			// check for diffuse and normal maps
+			// load them if they exist
+			// then return true 
+
+            var dataSavePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "ModdersGearbox";
+            if (!Directory.Exists(dataSavePath))
+            {
+                Directory.CreateDirectory(dataSavePath);
+            }
+
+            dataSavePath += Path.DirectorySeparatorChar + "Cache" + Path.DirectorySeparatorChar + TextureHashString + Path.DirectorySeparatorChar;
+            if (!Directory.Exists(dataSavePath))
+            {
+                Directory.CreateDirectory(dataSavePath);
+            }
+
+            var diffuse = dataSavePath + "diffuse.png";
+            var normal = dataSavePath + "normal.png";
+            var hd = dataSavePath + "hd.txt";
+
+			if (File.Exists(diffuse) && File.Exists(normal))
+            {
+				//LOAD ME SENPAI
+
+                if (File.Exists(hd))
+                {
+                    TextureDefinition = TextureMode.HD;
+                }
+
+
+				Texture2D diffTexture2D = new Texture2D(1,1);
+                diffTexture2D.LoadImage(File.ReadAllBytes(diffuse));
+
+                Texture2D normTexture2D = new Texture2D(1, 1);
+                normTexture2D.LoadImage(File.ReadAllBytes(normal));
+
+                mDiffuseTexture = diffTexture2D;
+                mNormalTexture = normTexture2D;
+
+                TextureSlotRegistry.Load();
+
+                foreach (var mappingData in TextureSlotRegistry.TextureSlotMapping)
+                {
+                    TerrainDataEntry terrainDataEntry = TerrainData.mEntriesByKey[mappingData.Key];
+
+                    terrainDataEntry.TopTexture = mappingData.Value.Top;
+                    terrainDataEntry.SideTexture = mappingData.Value.Side;
+                    terrainDataEntry.BottomTexture = mappingData.Value.Bottom;
+
+                    if (mappingData.Value.HasStages)
+                    {
+                        foreach (var textureMappingDataStagese in mappingData.Value.Stages)
+                        {
+							TerrainDataStageEntry entry = terrainDataEntry.Stages[textureMappingDataStagese.Key];
+
+                            entry.TopTexture = textureMappingDataStagese.Top;
+                            entry.SideTexture = textureMappingDataStagese.Side;
+                            entry.BottomTexture = textureMappingDataStagese.Bottom;
+
+						}
+                    }
+
+				}
+
+				return true;
+            }
+            
+			return false;
+        }
+
+		public static void GetModConfigHash()
+        {
+            string workString = "" + HUDManager.Version; //Tie in game version to force rebuilds.
+
+            foreach (ModConfiguration modConfiguration in ModManager.mModConfigurations.Mods)
+            {
+                workString += "" + modConfiguration.Id + "_" + modConfiguration.Version;
+            }
+			
+            TextureHashString = CalculateCrc32(workString);
+        }
+
+		//Stolen from DiskUtils
+
+        public static string CalculateCrc32(string textString)
+        {
+            Crc32 crc = new Crc32();
+			int num = 0;
+            byte[] bArray = Encoding.UTF8.GetBytes(textString);
+			string result;
+            for (; ; )
+            {
+                num++;
+                try
+                {
+                    string text = string.Empty;
+                    {
+                        foreach (byte b in crc.ComputeHash(bArray))
+                        {
+                            text += b.ToString("x2").ToLower();
+                        }
+                    }
+                    result = text;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    if (num >= 3)
+                    {
+                        Debug.LogError(string.Concat(new object[]
+                        {
+                            "Failed to calculate CRC of file ",
+                            textString,
+                            ". Attempt ",
+                            num
+                        }));
+                        throw;
+                    }
+                    Debug.LogWarning(string.Concat(new object[]
+                    {
+                        "Failed to calculate CRC of file ",
+                        textString,
+                        ". Attempt ",
+                        num
+                    }));
+                    Thread.Sleep(500);
+                }
+            }
+            return result;
+        }
+
+
+		static void PurgeTempTexture()
         {
             foreach (KeyValuePair<string, ModTextureEntry> modTextureEntry in DiffuseTexturesAll)
             {
@@ -156,34 +310,41 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
         {
             try
             {
-                //Save textures out.
+				//Save textures out.
 
-                // Encode texture into PNG
-                byte[] bytes = mDiffuseTexture.EncodeToPNG();
-
-                var dataSavePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "ModdersGearbox";
+				var dataSavePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "ModdersGearbox";
                 if (!Directory.Exists(dataSavePath))
                 {
                     Directory.CreateDirectory(dataSavePath);
                 }
 
-                dataSavePath += Path.DirectorySeparatorChar;
+                dataSavePath += Path.DirectorySeparatorChar + "Cache" + Path.DirectorySeparatorChar + TextureHashString + Path.DirectorySeparatorChar;
+                if (!Directory.Exists(dataSavePath))
+                {
+                    Directory.CreateDirectory(dataSavePath);
+                }
 
-                File.WriteAllBytes(dataSavePath + "Terrain_" + 0 + ".png", bytes);
+                var diffuse = dataSavePath + "diffuse.png";
+                var normal = dataSavePath + "normal.png";
+                var hd = dataSavePath + "hd.txt";
+
+                if (TextureDefinition == TextureMode.HD)
+                {
+                    var file = File.Create(hd);
+                    file.Close();
+				}
+
+
+				// Encode texture into PNG
+				byte[] bytes = mDiffuseTexture.EncodeToPNG();
+
+                File.WriteAllBytes(diffuse, bytes);
 
 
                 // Encode texture into PNG
                 bytes = mNormalTexture.EncodeToPNG();
 
-                dataSavePath = Application.persistentDataPath + Path.DirectorySeparatorChar + "ModdersGearbox";
-                if (!Directory.Exists(dataSavePath))
-                {
-                    Directory.CreateDirectory(dataSavePath);
-                }
-
-                dataSavePath += Path.DirectorySeparatorChar;
-
-                File.WriteAllBytes(dataSavePath + "Terrain_" + 1 + ".png", bytes);
+                File.WriteAllBytes(normal, bytes);
             }
             catch
             {
@@ -724,9 +885,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             mDiffuseTexture.Apply();
 			mNormalTexture.Apply();
             
-            #if DEBUG
 			ExportTextures();
-            #endif
 
 			//Finalise to the GPU. From here on, We cannot read it anymore.
 			mDiffuseTexture.Compress(true);
@@ -814,30 +973,40 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
                     if (bNeedsNewID)
                     {
-                        //Time to go set IDs
-                        switch (textureSide)
+                        TextureMappingData mapping = TextureSlotRegistry.GetMappingForKey(key);
+                        
+						//Time to go set IDs
+						switch (textureSide)
                         {
                             case TextureSide.All:
                             {
-                                entry.TopTexture = slot;
+								entry.TopTexture = slot;
                                 entry.SideTexture = slot;
                                 entry.BottomTexture = slot;
-                                break;
+
+                                mapping.Top = slot;
+                                mapping.Side = slot;
+                                mapping.Bottom = slot;
+
+								break;
                             }
                             case TextureSide.Top:
                             {
                                 entry.TopTexture = slot;
-                                break;
+                                mapping.Top = slot;
+								break;
                             }
                             case TextureSide.Side:
                             {
                                 entry.SideTexture = slot;
-                                break;
+                                mapping.Side = slot;
+								break;
                             }
                             case TextureSide.Bottom:
                             {
                                 entry.BottomTexture = slot;
-                                break;
+                                mapping.Bottom = slot;
+								break;
                             }
                         }
                     }
@@ -881,6 +1050,9 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                         TerrainDataEntry terrainDataEntry = TerrainData.mEntriesByKey[terrainKey];
                         TerrainDataStageEntry entry = terrainDataEntry.Stages[keyValuePair.Key];
 
+                        TextureMappingData mapping = TextureSlotRegistry.GetMappingForKey(terrainKey);
+                        TextureMappingDataStage stage = mapping.GetStage(keyValuePair.Key);
+
 						if (bNeedsNewID)
                         {
                             slot = NextTextureSpriteId++;
@@ -916,7 +1088,11 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
                         if (bNeedsNewID)
                         {
-                            entry.TopTexture = slot;
+                            stage.Top = slot;
+                            stage.Side = slot;
+                            stage.Bottom = slot;
+
+							entry.TopTexture = slot;
                             entry.SideTexture = slot;
                             entry.BottomTexture = slot;
 						}
