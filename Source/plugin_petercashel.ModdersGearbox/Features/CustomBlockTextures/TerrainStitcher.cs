@@ -189,7 +189,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
         public static string CalculateCrc32(string textString)
         {
-            Crc32 crc = new Crc32();
+			Crc32 crc = new Crc32();
 			int num = 0;
             byte[] bArray = Encoding.UTF8.GetBytes(textString);
 			string result;
@@ -234,6 +234,17 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             return result;
         }
 
+        // Just incase we need something with less clash
+        public static string CalculateSHA1(string textString)
+        {
+            var sha1 = System.Security.Cryptography.SHA1.Create();
+
+            byte[] buf = System.Text.Encoding.UTF8.GetBytes(textString);
+            byte[] hash = sha1.ComputeHash(buf, 0, buf.Length);
+            var hashstr = System.BitConverter.ToString(hash).Replace("-", "");
+
+            return hashstr;
+        }
 
 		static void PurgeTempTexture()
         {
