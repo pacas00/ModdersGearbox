@@ -816,7 +816,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                                     NormalTexturesTop.Remove(key);
                                 }
 
-                                NormalTexturesTop.Add(key, new ModTextureEntry(path2));
+                                NormalTexturesTop.Add(key, new ModTextureEntry(path2, true));
                             }
                             else if (fileNameWithoutExtension.ToLower().Contains("_side"))
                             {
@@ -827,7 +827,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                                     NormalTexturesSide.Remove(key);
                                 }
 
-                                NormalTexturesSide.Add(key, new ModTextureEntry(path2));
+                                NormalTexturesSide.Add(key, new ModTextureEntry(path2, true));
                             }
                             else if (fileNameWithoutExtension.ToLower().Contains("_bottom"))
                             {
@@ -838,7 +838,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                                     NormalTexturesBottom.Remove(key);
                                 }
 
-                                NormalTexturesBottom.Add(key, new ModTextureEntry(path2));
+                                NormalTexturesBottom.Add(key, new ModTextureEntry(path2, true));
                             }
                             else
                             {
@@ -860,7 +860,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                                     {
                                         stages.Remove(stage);
                                     }
-                                    stages.Add(stage, new ModTextureEntry(path2));
+                                    stages.Add(stage, new ModTextureEntry(path2, true));
 
                                 }
                                 else
@@ -870,7 +870,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                                         NormalTexturesAll.Remove(key);
                                     }
 
-                                    NormalTexturesAll.Add(fileNameWithoutExtension, new ModTextureEntry(path2));
+                                    NormalTexturesAll.Add(fileNameWithoutExtension, new ModTextureEntry(path2, true));
                                 }
                             }
                         }
@@ -1185,11 +1185,32 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                 return filePath;
             }
 
-			public ModTextureEntry(string filePath)
+			public ModTextureEntry(string filePath, bool isNormalMap = false)
             {
                 this.filePath = filePath;
                 texture = new Texture2D(2, 2, TextureFormat.ARGB32, false);
                 texture.LoadImage(File.ReadAllBytes(filePath));
+
+                if (isNormalMap)
+                {
+					//Clear Blue Channel
+					//Write Red Channel to Alpha
+					//Clear Red Channel
+
+                    var ColourArray = texture.GetPixels();
+
+                    for (int i = 0; i < ColourArray.Length; i++)
+					{
+						ColourArray[i].a = ColourArray[i].r;
+						ColourArray[i].r = ColourArray[i].g;
+						ColourArray[i].b = ColourArray[i].g;
+					}
+
+                    texture.SetPixels(ColourArray);
+                    texture.Apply();
+
+				}
+
 
                 if (texture.width != texture.height)
                 {
