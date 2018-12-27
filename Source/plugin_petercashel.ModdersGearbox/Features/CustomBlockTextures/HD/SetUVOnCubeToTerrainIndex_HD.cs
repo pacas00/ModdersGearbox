@@ -137,6 +137,10 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.HD
 		// Token: 0x06003752 RID: 14162 RVA: 0x00239C70 File Offset: 0x00237E70
 		public static void SetUVAndOverrideStaticMesh(int cubeType, ushort cubeValue, GameObject lCubeObject)
 		{
+            if (SetUVOnCubeToTerrainIndex_HD.mpb == null)
+            {
+                SetUVOnCubeToTerrainIndex_HD.mpb = new MaterialPropertyBlock();
+            }
 			SetUVOnCubeToTerrainIndex_HD.mpb.Clear();
 			if (CubeHelper.IsColorised(cubeType))
 			{
@@ -185,9 +189,14 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.HD
 		// Token: 0x06003753 RID: 14163 RVA: 0x00239DC0 File Offset: 0x00237FC0
 		public static void SetMaterialUV(Renderer lRenderer, int lnWhich, ushort lValue, bool lbDoBump)
 		{
-            //Original DJ code, modified for MG HD
+            if (SetUVOnCubeToTerrainIndex_HD.mpb == null)
+            {
+                SetUVOnCubeToTerrainIndex_HD.mpb = new MaterialPropertyBlock();
+            }
 
-            int lnTotalPix = 292; //and-a-bit
+			//Original DJ code, modified for MG HD
+
+			int lnTotalPix = 292; //and-a-bit
             int lnGutter = 18;     //9;//ermlnTotalPix - lnTilePix;
 
             int lnTiles = 28; //DJ value is 14, our sheets are 2x the width
