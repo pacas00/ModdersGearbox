@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using plugin_petercashel_ModdersGearbox.API;
 using plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures;
 using UnityEngine;
 
@@ -11,12 +12,14 @@ namespace plugin_petercashel_ModdersGearbox
 	{
 		//These are called by appropriate places
 
-        public static void Start()
+		//Init, Called Always
+		public static void Awake()
         {
+            petercashel.ModdersGearboxAPI.API.Instance = new APIInstance();
+		}
 
-        }
-
-        public static void Awake()
+		//Init, Called Once
+		public static void Start()
         {
 
         }
@@ -31,5 +34,9 @@ namespace plugin_petercashel_ModdersGearbox
 
         }
 
+        public static void OnApplicationQuit()
+		{
+			
+		}
 	}
 }
