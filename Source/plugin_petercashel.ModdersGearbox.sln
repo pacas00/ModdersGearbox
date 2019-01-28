@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "plugin_petercashel.ModdersG
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "petercashel.ModdersGearboxAPI", "petercashel.ModdersGearboxAPI\petercashel.ModdersGearboxAPI.csproj", "{37E79150-1CC8-4A86-AA3B-856AD2F1FEF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocX", "DocX\DocX.csproj", "{A0311BEA-B876-4FCC-A56C-DDDB5C2673E0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,12 +29,6 @@ Global
 		{37E79150-1CC8-4A86-AA3B-856AD2F1FEF9}.DebugWorkshop|Any CPU.Build.0 = Debug|Any CPU
 		{37E79150-1CC8-4A86-AA3B-856AD2F1FEF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37E79150-1CC8-4A86-AA3B-856AD2F1FEF9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0311BEA-B876-4FCC-A56C-DDDB5C2673E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0311BEA-B876-4FCC-A56C-DDDB5C2673E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0311BEA-B876-4FCC-A56C-DDDB5C2673E0}.DebugWorkshop|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0311BEA-B876-4FCC-A56C-DDDB5C2673E0}.DebugWorkshop|Any CPU.Build.0 = Debug|Any CPU
-		{A0311BEA-B876-4FCC-A56C-DDDB5C2673E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0311BEA-B876-4FCC-A56C-DDDB5C2673E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

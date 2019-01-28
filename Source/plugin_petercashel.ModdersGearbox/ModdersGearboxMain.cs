@@ -16,7 +16,8 @@ namespace plugin_petercashel_ModdersGearbox
 		public static void Awake()
         {
             petercashel.ModdersGearboxAPI.API.Instance = new APIInstance();
-		}
+            petercashel.ModdersGearboxAPI.API.APIReady = true;
+        }
 
 		//Init, Called Once
 		public static void Start()
