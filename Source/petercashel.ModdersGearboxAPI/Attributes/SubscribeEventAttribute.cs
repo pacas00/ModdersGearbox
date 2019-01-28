@@ -11,7 +11,7 @@ namespace petercashel.ModdersGearboxAPI.Attributes
 	/// </summary>
 	public class SubscribeEventAttribute : Attribute
 	{
-        ///<exclude/>
+		/// <summary>Attribute field to store event.</summary>
 		public SubscribableEvents value;
 
 		/// <summary>
