@@ -1,0 +1,225 @@
+{
+  "homepages": [],
+  "source_base_path": "D:/VSTS/Agent/_work/11/s/Source/petercashel.ModdersGearboxAPI",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "uxHXHkfz1XUF4A9asq3kNw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/petercashel.ModdersGearboxAPI.API.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/petercashel.ModdersGearboxAPI.API.html",
+          "hash": "HuHZTrtUWvfog6poOlo/Tg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.EventHandlersAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.EventHandlersAttribute.html",
+          "hash": "zIoy/j7ngI3C37E34/pzsQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents.html",
+          "hash": "6M5RWce+n4VqAGyBbZhHNA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.html",
+          "hash": "gF45mUjQ/D+8lKwxlQ20AQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.html",
+          "hash": "0r1G9ysthh9ZybxP7zHSow=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.html",
+          "hash": "wTdPBdOmuUNSokfx8gF/Bw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/petercashel.ModdersGearboxAPI.Internal.API.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/petercashel.ModdersGearboxAPI.Internal.API.html",
+          "hash": "/9cC6PMjQSakU/SIl+/Pkw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/petercashel.ModdersGearboxAPI.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/petercashel.ModdersGearboxAPI.html",
+          "hash": "t9BJBW/S5z41LgbaFy8SKQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "mSftPu9swUDYmPq1Vr2L9A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "UpmgLae/1K4juI1M5SlRCg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "t7iiFrmuYmrKWisdq+lN6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "2fBLLlpITAYERhanuU23Ww=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "EmptyTocItemNode"
+      ],
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "CTRBtwqjkNOufjixN6uYcg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 3
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 8,
+          "skipped_file_count": 8
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
