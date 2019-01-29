@@ -6,3 +6,4 @@
 - name: Source on GitHub
   href: https://github.com/pacas00/ModdersGearbox
   homepage: api/index.md
+  #Switched to the .md file as it supports external urls
