@@ -4,15 +4,24 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      },
+      "is_incremental": false
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "uxHXHkfz1XUF4A9asq3kNw=="
+          "hash": "3ol6tePF0NQHViaLIWOuhw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -21,10 +30,10 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.API.html",
-          "hash": "HuHZTrtUWvfog6poOlo/Tg=="
+          "hash": "TxPcoEZGolWPX6WKf/78AA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -33,10 +42,10 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.EventHandlersAttribute.html",
-          "hash": "zIoy/j7ngI3C37E34/pzsQ=="
+          "hash": "BL46H6f+r3B+CfQfBkcTUQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -45,10 +54,10 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents.html",
-          "hash": "6M5RWce+n4VqAGyBbZhHNA=="
+          "hash": "4+lnxlXvygO8X7Rosiay/g=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -57,10 +66,10 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.html",
-          "hash": "gF45mUjQ/D+8lKwxlQ20AQ=="
+          "hash": "ds/6PKTG4ik5+E/108H15A=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -69,10 +78,10 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.html",
-          "hash": "0r1G9ysthh9ZybxP7zHSow=="
+          "hash": "wX8intEwWuksil6aEI1/mw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -81,10 +90,10 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.html",
-          "hash": "wTdPBdOmuUNSokfx8gF/Bw=="
+          "hash": "e2niL3N4Fni6vbwInBrBKw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -93,10 +102,10 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.Internal.API.html",
-          "hash": "/9cC6PMjQSakU/SIl+/Pkw=="
+          "hash": "P822eucucKuIiIEt5qbKQw=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -105,10 +114,10 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.html",
-          "hash": "t9BJBW/S5z41LgbaFy8SKQ=="
+          "hash": "rfm1zu3FmmoI+aQP+sdnPQ=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -129,10 +138,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "UpmgLae/1K4juI1M5SlRCg=="
+          "hash": "5altgz2DdLdNcJD19aV6bA=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -148,15 +157,92 @@
       "version": ""
     },
     {
+      "type": "Resource",
+      "source_relative_path": "images/Logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/Logo.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/LogoBox.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/LogoBox.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/LogoBox256.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/LogoBox256.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/LogoBox32.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/LogoBox32.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/LogoBox48.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/LogoBox48.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/LogoBox64.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/LogoBox64.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/LogoInvert.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/LogoInvert.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "index.md",
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "2fBLLlpITAYERhanuU23Ww=="
+          "hash": "viR2s9SZ+FfxNa+lVihp0A=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -184,6 +270,13 @@
         "skipped_file_count": 0
       },
       "processors": {
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
@@ -207,8 +300,8 @@
     },
     {
       "status": {
-        "can_incremental": true,
-        "details": "Can support incremental post processing.",
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: should not trace intermediate info.",
         "incrementalPhase": "postProcessing",
         "total_file_count": 0,
         "skipped_file_count": 0
