@@ -1,33 +1,28 @@
 {
-  "api/petercashel.ModdersGearboxAPI.Attributes.html": {
-    "href": "api/petercashel.ModdersGearboxAPI.Attributes.html",
-    "title": "Namespace petercashel.ModdersGearboxAPI.Attributes | Modder's Gearbox API",
-    "keywords": "Namespace petercashel.ModdersGearboxAPI.Attributes Classes EventHandlersAttribute Add this Attribute to a class containing methods annotated with SubscribeEventAttribute Or a field in your FortressCraftMod class, with an class instance containing methods annotated with SubscribeEventAttribute SubscribeEventAttribute Methods annotated with this Attribute will be auto subscribed to events. Also works on methods placed directly in your FortressCraftMod class. Enums SubscribableEvents Events that can be subscribed to."
+  "api/petercashel.ModdersGearboxAPI.html": {
+    "href": "api/petercashel.ModdersGearboxAPI.html",
+    "title": "Namespace petercashel.ModdersGearboxAPI | Modder's Gearbox API",
+    "keywords": "Namespace petercashel.ModdersGearboxAPI Classes API Primary API Entrypoint"
   },
   "api/petercashel.ModdersGearboxAPI.Internal.API.html": {
     "href": "api/petercashel.ModdersGearboxAPI.Internal.API.html",
     "title": "Namespace petercashel.ModdersGearboxAPI.Internal.API | Modder's Gearbox API",
     "keywords": "Namespace petercashel.ModdersGearboxAPI.Internal.API Interfaces IAPIInstance Interface for the API, Implementation is in Modders Gearbox."
   },
+  "index.html": {
+    "href": "index.html",
+    "title": "This is the HOMEPAGE. | Modder's Gearbox API",
+    "keywords": "This is the HOMEPAGE . Refer to Markdown for how to write markdown files. Quick Start Notes: Add images to images folder if the file is referencing an image."
+  },
   "articles/intro.html": {
     "href": "articles/intro.html",
     "title": "Add your introductions here! | Modder's Gearbox API",
     "keywords": "Add your introductions here!"
   },
-  "api/index.html": {
-    "href": "api/index.html",
-    "title": "Modders Gearbox API Docs | Modder's Gearbox API",
-    "keywords": "Modders Gearbox API Docs Use the links on the left to navigate."
-  },
-  "api/petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents.html": {
-    "href": "api/petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents.html",
-    "title": "Enum SubscribableEvents | Modder's Gearbox API",
-    "keywords": "Enum SubscribableEvents Events that can be subscribed to. Namespace : petercashel.ModdersGearboxAPI.Attributes Assembly : petercashel.ModdersGearboxAPI.dll Syntax public enum SubscribableEvents Fields Name Description IntermodComm Intermod Communication"
-  },
-  "api/petercashel.ModdersGearboxAPI.html": {
-    "href": "api/petercashel.ModdersGearboxAPI.html",
-    "title": "Namespace petercashel.ModdersGearboxAPI | Modder's Gearbox API",
-    "keywords": "Namespace petercashel.ModdersGearboxAPI Classes API Primary API Entrypoint"
+  "api/petercashel.ModdersGearboxAPI.Attributes.html": {
+    "href": "api/petercashel.ModdersGearboxAPI.Attributes.html",
+    "title": "Namespace petercashel.ModdersGearboxAPI.Attributes | Modder's Gearbox API",
+    "keywords": "Namespace petercashel.ModdersGearboxAPI.Attributes Classes EventHandlersAttribute Add this Attribute to a class containing methods annotated with SubscribeEventAttribute Or a field in your FortressCraftMod class, with an class instance containing methods annotated with SubscribeEventAttribute SubscribeEventAttribute Methods annotated with this Attribute will be auto subscribed to events. Also works on methods placed directly in your FortressCraftMod class. Enums SubscribableEvents Events that can be subscribed to."
   },
   "api/petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.html": {
     "href": "api/petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.html",
@@ -39,15 +34,20 @@
     "title": "Class EventHandlersAttribute | Modder's Gearbox API",
     "keywords": "Class EventHandlersAttribute Add this Attribute to a class containing methods annotated with SubscribeEventAttribute Or a field in your FortressCraftMod class, with an class instance containing methods annotated with SubscribeEventAttribute Inheritance System.Object System.Attribute EventHandlersAttribute Implements System.Runtime.InteropServices._Attribute Inherited Members System.Attribute.System.Runtime.InteropServices._Attribute.GetIDsOfNames(System.Guid, System.IntPtr, System.UInt32, System.UInt32, System.IntPtr) System.Attribute.System.Runtime.InteropServices._Attribute.GetTypeInfo(System.UInt32, System.UInt32, System.IntPtr) System.Attribute.System.Runtime.InteropServices._Attribute.GetTypeInfoCount(System.UInt32) System.Attribute.System.Runtime.InteropServices._Attribute.Invoke(System.UInt32, System.Guid, System.UInt32, System.Int16, System.IntPtr, System.IntPtr, System.IntPtr, System.IntPtr) System.Attribute.GetCustomAttribute(System.Reflection.ParameterInfo, System.Type) System.Attribute.GetCustomAttribute(System.Reflection.MemberInfo, System.Type) System.Attribute.GetCustomAttribute(System.Reflection.Assembly, System.Type) System.Attribute.GetCustomAttribute(System.Reflection.Module, System.Type) System.Attribute.GetCustomAttribute(System.Reflection.Module, System.Type, System.Boolean) System.Attribute.GetCustomAttribute(System.Reflection.Assembly, System.Type, System.Boolean) System.Attribute.GetCustomAttribute(System.Reflection.ParameterInfo, System.Type, System.Boolean) System.Attribute.GetCustomAttribute(System.Reflection.MemberInfo, System.Type, System.Boolean) System.Attribute.GetCustomAttributes(System.Reflection.Assembly) System.Attribute.GetCustomAttributes(System.Reflection.ParameterInfo) System.Attribute.GetCustomAttributes(System.Reflection.MemberInfo) System.Attribute.GetCustomAttributes(System.Reflection.Module) System.Attribute.GetCustomAttributes(System.Reflection.Assembly, System.Type) System.Attribute.GetCustomAttributes(System.Reflection.Module, System.Type) System.Attribute.GetCustomAttributes(System.Reflection.ParameterInfo, System.Type) System.Attribute.GetCustomAttributes(System.Reflection.MemberInfo, System.Type) System.Attribute.GetCustomAttributes(System.Reflection.Assembly, System.Type, System.Boolean) System.Attribute.GetCustomAttributes(System.Reflection.ParameterInfo, System.Type, System.Boolean) System.Attribute.GetCustomAttributes(System.Reflection.Module, System.Type, System.Boolean) System.Attribute.GetCustomAttributes(System.Reflection.MemberInfo, System.Type, System.Boolean) System.Attribute.GetCustomAttributes(System.Reflection.Module, System.Boolean) System.Attribute.GetCustomAttributes(System.Reflection.Assembly, System.Boolean) System.Attribute.GetCustomAttributes(System.Reflection.MemberInfo, System.Boolean) System.Attribute.GetCustomAttributes(System.Reflection.ParameterInfo, System.Boolean) System.Attribute.GetHashCode() System.Attribute.IsDefaultAttribute() System.Attribute.IsDefined(System.Reflection.Module, System.Type) System.Attribute.IsDefined(System.Reflection.ParameterInfo, System.Type) System.Attribute.IsDefined(System.Reflection.MemberInfo, System.Type) System.Attribute.IsDefined(System.Reflection.Assembly, System.Type) System.Attribute.IsDefined(System.Reflection.MemberInfo, System.Type, System.Boolean) System.Attribute.IsDefined(System.Reflection.Assembly, System.Type, System.Boolean) System.Attribute.IsDefined(System.Reflection.Module, System.Type, System.Boolean) System.Attribute.IsDefined(System.Reflection.ParameterInfo, System.Type, System.Boolean) System.Attribute.Match(System.Object) System.Attribute.Equals(System.Object) System.Attribute.TypeId System.Object.Equals(System.Object, System.Object) System.Object.GetType() System.Object.MemberwiseClone() System.Object.ToString() System.Object.ReferenceEquals(System.Object, System.Object) Namespace : petercashel.ModdersGearboxAPI.Attributes Assembly : petercashel.ModdersGearboxAPI.dll Syntax public class EventHandlersAttribute : Attribute, _Attribute Constructors | Improve this Doc View Source EventHandlersAttribute() Declaration public EventHandlersAttribute() Implements System.Runtime.InteropServices._Attribute"
   },
-  "index.html": {
-    "href": "index.html",
-    "title": "This is the HOMEPAGE. | Modder's Gearbox API",
-    "keywords": "This is the HOMEPAGE . Refer to Markdown for how to write markdown files. Quick Start Notes: Add images to images folder if the file is referencing an image."
-  },
   "api/petercashel.ModdersGearboxAPI.API.html": {
     "href": "api/petercashel.ModdersGearboxAPI.API.html",
     "title": "Class API | Modder's Gearbox API",
     "keywords": "Class API Primary API Entrypoint Inheritance System.Object API Inherited Members System.Object.Equals(System.Object) System.Object.Equals(System.Object, System.Object) System.Object.GetHashCode() System.Object.GetType() System.Object.MemberwiseClone() System.Object.ToString() System.Object.ReferenceEquals(System.Object, System.Object) Namespace : petercashel.ModdersGearboxAPI Assembly : petercashel.ModdersGearboxAPI.dll Syntax public static class API Fields | Improve this Doc View Source APIReady APIReady will be set true once the API is ready is initialised. Declaration public static bool APIReady Field Value Type Description System.Boolean | Improve this Doc View Source Instance At runtime, this will be populated with an instance of the API Declaration public static IAPIInstance Instance Field Value Type Description IAPIInstance"
+  },
+  "api/index.html": {
+    "href": "api/index.html",
+    "title": "Modders Gearbox API Docs | Modder's Gearbox API",
+    "keywords": "Modders Gearbox API Docs Use the links on the left to navigate."
+  },
+  "api/petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents.html": {
+    "href": "api/petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents.html",
+    "title": "Enum SubscribableEvents | Modder's Gearbox API",
+    "keywords": "Enum SubscribableEvents Events that can be subscribed to. Namespace : petercashel.ModdersGearboxAPI.Attributes Assembly : petercashel.ModdersGearboxAPI.dll Syntax public enum SubscribableEvents Fields Name Description IntermodComm Intermod Communication"
   },
   "api/petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.html": {
     "href": "api/petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.html",
