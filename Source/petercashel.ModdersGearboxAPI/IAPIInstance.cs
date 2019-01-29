@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace petercashel.ModdersGearboxAPI.Internal.API
+﻿namespace petercashel.ModdersGearboxAPI
 {
     /// <summary>
 	/// Interface for the API, Implementation is in Modders Gearbox.
