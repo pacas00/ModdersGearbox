@@ -15,6 +15,8 @@ namespace plugin_petercashel_ModdersGearbox.Features.EventSystem
 
 		public static void RegisterAllMods()
         {
+            if (EventsRegistered) return;
+
 			foreach (FortressCraftMod instanceLoadedPlugin in ModManager.instance.mLoadedPlugins)
             {
                 //Find all static classes in mod assemblies with EventHandlersAttribute
@@ -89,7 +91,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.EventSystem
                 }
                 catch
                 {
-                    //Discard error here. Most likely 
+                    //Discard error here. Most likely string or null related
                 }
 
                 UtilClass.WriteLine(e);
