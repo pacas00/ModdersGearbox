@@ -87,28 +87,22 @@ references:
   commentId: F:petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.value
   fullName: petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.value
   nameWithType: SubscribeEventAttribute.value
-- uid: petercashel.ModdersGearboxAPI.Internal.API
-  name: petercashel.ModdersGearboxAPI.Internal.API
-  href: api/petercashel.ModdersGearboxAPI.Internal.API.html
-  commentId: N:petercashel.ModdersGearboxAPI.Internal.API
-  fullName: petercashel.ModdersGearboxAPI.Internal.API
-  nameWithType: petercashel.ModdersGearboxAPI.Internal.API
-- uid: petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance
+- uid: petercashel.ModdersGearboxAPI.IAPIInstance
   name: IAPIInstance
-  href: api/petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.html
-  commentId: T:petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance
-  fullName: petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance
+  href: api/petercashel.ModdersGearboxAPI.IAPIInstance.html
+  commentId: T:petercashel.ModdersGearboxAPI.IAPIInstance
+  fullName: petercashel.ModdersGearboxAPI.IAPIInstance
   nameWithType: IAPIInstance
-- uid: petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.SendIntermodComms(System.String,System.String,System.Object)
+- uid: petercashel.ModdersGearboxAPI.IAPIInstance.SendIntermodComms(System.String,System.String,System.Object)
   name: SendIntermodComms(String, String, Object)
-  href: api/petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.html#petercashel_ModdersGearboxAPI_Internal_API_IAPIInstance_SendIntermodComms_System_String_System_String_System_Object_
-  commentId: M:petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.SendIntermodComms(System.String,System.String,System.Object)
-  fullName: petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.SendIntermodComms(System.String, System.String, System.Object)
+  href: api/petercashel.ModdersGearboxAPI.IAPIInstance.html#petercashel_ModdersGearboxAPI_IAPIInstance_SendIntermodComms_System_String_System_String_System_Object_
+  commentId: M:petercashel.ModdersGearboxAPI.IAPIInstance.SendIntermodComms(System.String,System.String,System.Object)
+  fullName: petercashel.ModdersGearboxAPI.IAPIInstance.SendIntermodComms(System.String, System.String, System.Object)
   nameWithType: IAPIInstance.SendIntermodComms(String, String, Object)
-- uid: petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.SendIntermodComms*
+- uid: petercashel.ModdersGearboxAPI.IAPIInstance.SendIntermodComms*
   name: SendIntermodComms
-  href: api/petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.html#petercashel_ModdersGearboxAPI_Internal_API_IAPIInstance_SendIntermodComms_
-  commentId: Overload:petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.SendIntermodComms
+  href: api/petercashel.ModdersGearboxAPI.IAPIInstance.html#petercashel_ModdersGearboxAPI_IAPIInstance_SendIntermodComms_
+  commentId: Overload:petercashel.ModdersGearboxAPI.IAPIInstance.SendIntermodComms
   isSpec: "True"
-  fullName: petercashel.ModdersGearboxAPI.Internal.API.IAPIInstance.SendIntermodComms
+  fullName: petercashel.ModdersGearboxAPI.IAPIInstance.SendIntermodComms
   nameWithType: IAPIInstance.SendIntermodComms

@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Namespace petercashel.ModdersGearboxAPI
+    <title>Interface IAPIInstance
    | Modder's Gearbox API </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Namespace petercashel.ModdersGearboxAPI
+    <meta name="title" content="Interface IAPIInstance
    | Modder's Gearbox API ">
     <meta name="generator" content="docfx 2.40.8.0">
     
@@ -78,23 +78,68 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="petercashel.ModdersGearboxAPI">
+            <article class="content wrap" id="_content" data-uid="petercashel.ModdersGearboxAPI.IAPIInstance">
   
-  <h1 id="petercashel_ModdersGearboxAPI" data-uid="petercashel.ModdersGearboxAPI" class="text-break">Namespace petercashel.ModdersGearboxAPI
+  
+  <h1 id="petercashel_ModdersGearboxAPI_IAPIInstance" data-uid="petercashel.ModdersGearboxAPI.IAPIInstance" class="text-break">Interface IAPIInstance
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Interface for the API, Implementation is in Modders Gearbox.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
-  <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
+  <h6><strong>Namespace</strong>: <a class="xref" href="petercashel.ModdersGearboxAPI.html">petercashel.ModdersGearboxAPI</a></h6>
+  <h6><strong>Assembly</strong>: petercashel.ModdersGearboxAPI.dll</h6>
+  <h5 id="petercashel_ModdersGearboxAPI_IAPIInstance_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface IAPIInstance</code></pre>
+  </div>
+  <h3 id="methods">Methods
   </h3>
-      <h4><a class="xref" href="petercashel.ModdersGearboxAPI.API.html">API</a></h4>
-      <section><p>Primary API Entrypoint</p>
-</section>
-    <h3 id="interfaces">Interfaces
-  </h3>
-      <h4><a class="xref" href="petercashel.ModdersGearboxAPI.IAPIInstance.html">IAPIInstance</a></h4>
-      <section><p>Interface for the API, Implementation is in Modders Gearbox.</p>
-</section>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/pacas00/ModdersGearbox/new/master/apiSpec/new?filename=petercashel_ModdersGearboxAPI_IAPIInstance_SendIntermodComms_System_String_System_String_System_Object_.md&amp;value=---%0Auid%3A%20petercashel.ModdersGearboxAPI.IAPIInstance.SendIntermodComms(System.String%2CSystem.String%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/pacas00/ModdersGearbox/blob/master/Source/petercashel.ModdersGearboxAPI/IAPIInstance.cs/#L23">View Source</a>
+  </span>
+  <a id="petercashel_ModdersGearboxAPI_IAPIInstance_SendIntermodComms_" data-uid="petercashel.ModdersGearboxAPI.IAPIInstance.SendIntermodComms*"></a>
+  <h4 id="petercashel_ModdersGearboxAPI_IAPIInstance_SendIntermodComms_System_String_System_String_System_Object_" data-uid="petercashel.ModdersGearboxAPI.IAPIInstance.SendIntermodComms(System.String,System.String,System.Object)">SendIntermodComms(String, String, Object)</h4>
+  <div class="markdown level1 summary"><p>Send a Intermod Comms message to mods that support it.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void SendIntermodComms(string modKey, string message, object payload)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">modKey</span></td>
+        <td><p>Unique key that the mod identifies as</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Message id</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">payload</span></td>
+        <td><p>What ever payload data object you need, or null</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -102,6 +147,12 @@
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/pacas00/ModdersGearbox/new/master/apiSpec/new?filename=petercashel_ModdersGearboxAPI_IAPIInstance.md&amp;value=---%0Auid%3A%20petercashel.ModdersGearboxAPI.IAPIInstance%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/pacas00/ModdersGearbox/blob/master/Source/petercashel.ModdersGearboxAPI/IAPIInstance.cs/#L6" class="contribution-link">View Source</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
