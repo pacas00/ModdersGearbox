@@ -24,6 +24,12 @@
 
 
 
+		/// <summary>
+		/// Returns the API version of the current implementation. Use this to detect new/old/incompatible versions.
+		/// </summary>
+        decimal GetAPIVersion();
+
+
 
     }
 }
