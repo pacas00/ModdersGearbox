@@ -14,8 +14,8 @@ namespace plugin_petercashel_ModdersGearbox
         public static void HandleIMC(string ModKey, string Message, object payload)
         {
             if (ModKey != "ModdersGearbox") return;
-            Debug.LogWarning("IntermodComm Static Test");
-        }
+            if (Message.ToLower().Contains("test")) Debug.LogWarning("IntermodComm static Test" + " - " + Message);
+		}
 
 	}
 }

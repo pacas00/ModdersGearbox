@@ -9,7 +9,9 @@ namespace plugin_petercashel_ModdersGearbox.API
 {
 	public class APIInstance : IAPIInstance
 	{
-        public APIInstance()
+        public decimal Version = 0.01m;
+
+		public APIInstance()
         {
             //Setup other things here.
 
@@ -19,5 +21,12 @@ namespace plugin_petercashel_ModdersGearbox.API
         {
             EventRegistration.SendIntermodComms(modKey, message, payload);
         }
-	}
+
+        public decimal GetAPIVersion()
+        {
+            return Version;
+        }
+
+
+    }
 }
