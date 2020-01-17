@@ -119,6 +119,8 @@ if $(ConfigurationName) == DebugWorkshop (
 	pdb2mdb.exe plugin_petercashel.ModdersGearbox.dll
 )
 
+if %25USERNAME%25 == pacas (
+
 if %25ComputerName%25 == PETERCASHEL-PC (
 
 	if $(ConfigurationName) == Release (
@@ -140,6 +142,7 @@ if %25ComputerName%25 == PETERCASHEL-PC (
 		copy petercashel.ModdersGearboxAPI.dll "M:\SteamLibrary\steamapps\workshop\content\254200\1548137276\petercashel.ModdersGearboxAPI.dll" /Y
 	)
 
+)
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>
