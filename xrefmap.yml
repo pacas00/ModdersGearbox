@@ -93,6 +93,19 @@ references:
   commentId: T:petercashel.ModdersGearboxAPI.IAPIInstance
   fullName: petercashel.ModdersGearboxAPI.IAPIInstance
   nameWithType: IAPIInstance
+- uid: petercashel.ModdersGearboxAPI.IAPIInstance.GetAPIVersion
+  name: GetAPIVersion()
+  href: api/petercashel.ModdersGearboxAPI.IAPIInstance.html#petercashel_ModdersGearboxAPI_IAPIInstance_GetAPIVersion
+  commentId: M:petercashel.ModdersGearboxAPI.IAPIInstance.GetAPIVersion
+  fullName: petercashel.ModdersGearboxAPI.IAPIInstance.GetAPIVersion()
+  nameWithType: IAPIInstance.GetAPIVersion()
+- uid: petercashel.ModdersGearboxAPI.IAPIInstance.GetAPIVersion*
+  name: GetAPIVersion
+  href: api/petercashel.ModdersGearboxAPI.IAPIInstance.html#petercashel_ModdersGearboxAPI_IAPIInstance_GetAPIVersion_
+  commentId: Overload:petercashel.ModdersGearboxAPI.IAPIInstance.GetAPIVersion
+  isSpec: "True"
+  fullName: petercashel.ModdersGearboxAPI.IAPIInstance.GetAPIVersion
+  nameWithType: IAPIInstance.GetAPIVersion
 - uid: petercashel.ModdersGearboxAPI.IAPIInstance.SendIntermodComms(System.String,System.String,System.Object)
   name: SendIntermodComms(String, String, Object)
   href: api/petercashel.ModdersGearboxAPI.IAPIInstance.html#petercashel_ModdersGearboxAPI_IAPIInstance_SendIntermodComms_System_String_System_String_System_Object_

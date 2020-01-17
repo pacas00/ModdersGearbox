@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "D:/VSTS/Agent/_work/11/s/Source/petercashel.ModdersGearboxAPI/Docs",
+  "source_base_path": "T:/Agent/_work/2/s/Source/petercashel.ModdersGearboxAPI/Docs",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -18,7 +18,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "rcaSMn0nQhqFERqcJQ55Kg=="
+          "hash": "kNz0D8Y04IzgD3woVa1lmw=="
         }
       },
       "is_incremental": false,
@@ -30,7 +30,7 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.API.html",
-          "hash": "NbJWcmNV/iQ1a4aYzY7n5g=="
+          "hash": "BCYhxiQPspS16kk5sfgfFw=="
         }
       },
       "is_incremental": false,
@@ -42,7 +42,7 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.EventHandlersAttribute.html",
-          "hash": "BL46H6f+r3B+CfQfBkcTUQ=="
+          "hash": "+UyGyXHUjgDwJdJh6KuOkA=="
         }
       },
       "is_incremental": false,
@@ -54,7 +54,7 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents.html",
-          "hash": "4+lnxlXvygO8X7Rosiay/g=="
+          "hash": "aK+m4/luePfTYU83UkaUTQ=="
         }
       },
       "is_incremental": false,
@@ -66,7 +66,7 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.html",
-          "hash": "ds/6PKTG4ik5+E/108H15A=="
+          "hash": "ClGG+m3N9mKcRenR4bs2vg=="
         }
       },
       "is_incremental": false,
@@ -78,7 +78,7 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.Attributes.html",
-          "hash": "wX8intEwWuksil6aEI1/mw=="
+          "hash": "GPQa2PMiebaSS9IZBMyd8A=="
         }
       },
       "is_incremental": false,
@@ -90,7 +90,7 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.IAPIInstance.html",
-          "hash": "LHzE/PKucAo9K3l/vJ3KDQ=="
+          "hash": "zNCl6gTq1qn1+tWMhPpD+Q=="
         }
       },
       "is_incremental": false,
@@ -102,7 +102,7 @@
       "output": {
         ".html": {
           "relative_path": "api/petercashel.ModdersGearboxAPI.html",
-          "hash": "exPl+W6vgkkLpRlp70nDWQ=="
+          "hash": "fazeAN2MyfBjU59Ntk7DOA=="
         }
       },
       "is_incremental": false,
@@ -114,7 +114,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "c5KpDasSoZWd7mMo7Z1gvg=="
+          "hash": "z+DH9krlLI3oIbR1jmaUeg=="
         }
       },
       "is_incremental": false,
@@ -126,7 +126,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/intro.html",
-          "hash": "2tC2GKpr/BjJSmhhaxw1TA=="
+          "hash": "8EBb2ajY7tq5cOQ1qlbkGg=="
         }
       },
       "is_incremental": false,
@@ -138,7 +138,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "t7iiFrmuYmrKWisdq+lN6Q=="
+          "hash": "gB8AESyvNru97tzIZofEEg=="
         }
       },
       "is_incremental": false,
@@ -227,7 +227,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "xmgDvlm9EPFPcj5F3eq8GA=="
+          "hash": "6CsXh894p4k/bDRWj93M0w=="
         }
       },
       "is_incremental": false,
@@ -242,7 +242,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "ykqAUqVWH58cVakgS+yekg=="
+          "hash": "fF7PKoCu4sh9Zkw6WcGkiQ=="
         }
       },
       "is_incremental": false,
@@ -256,7 +256,8 @@
         "details": "Cannot build incrementally because last build info is missing.",
         "incrementalPhase": "build",
         "total_file_count": 0,
-        "skipped_file_count": 0
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
         "TocDocumentProcessor": {
@@ -266,16 +267,16 @@
           "total_file_count": 0,
           "skipped_file_count": 0
         },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
-          "incrementalPhase": "build",
-          "total_file_count": 7,
-          "skipped_file_count": 0
-        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 3,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 7,
           "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {
