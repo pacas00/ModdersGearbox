@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Reflection;
 using Harmony;
+using petercashel.ModdersGearboxAPI.Attributes;
 using plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.Patches;
+using plugin_petercashel_ModdersGearbox.Features.EventSystem;
 using UnityEngine;
 
 namespace plugin_petercashel_ModdersGearbox
@@ -15,6 +18,9 @@ namespace plugin_petercashel_ModdersGearbox
         bool mInitalised;
         bool mIsRunning;
         string mWorkingDir;
+
+        [EventHandlers]
+        public EventsInstance eventsInstance = new EventsInstance();
 
         #endregion
 
@@ -43,14 +49,16 @@ namespace plugin_petercashel_ModdersGearbox
 
 			_HarmonyInstance.PatchAll(typeof(plugin_petercashel_ModdersGearbox).Assembly);
 
-            Debug.Log(String.Format("{0} {1}", UtilClass.modName, "- Harmony Patching Complete"));
+			Debug.Log(String.Format("{0} {1}", UtilClass.modName, "- Harmony Patching Complete"));
 		}
+
+
 
 		public void Awake()
         {
             HarmonyPatcher();
             ModdersGearboxMain.Awake();
-		}
+        }
 
         public void Start()
         {
@@ -81,7 +89,30 @@ namespace plugin_petercashel_ModdersGearbox
         public void Update()
         {
             ModdersGearboxMain.Update();
+
+            if (EventRegistration.EventsRegistered && !EventRegistration.EventsRegisteredTest)
+            {
+                EventRegistration.EventsRegisteredTest = true;
+				EventRegistration.SendIntermodComms("ModdersGearbox", "Test", null);
+			}
 		}
-        #endregion
-    }
+
+
+        public void OnApplicationQuit()
+        {
+            ModdersGearboxMain.OnApplicationQuit();
+        }
+
+
+		#endregion
+
+
+
+        [SubscribeEvent(SubscribableEvents.IntermodComm)]
+        public void HandleIMC(string ModKey, string Message, object payload)
+        {
+            if (ModKey != "ModdersGearbox") return;
+            Debug.LogWarning("IntermodComm Instance Plugin Test");
+        }
+	}
 }

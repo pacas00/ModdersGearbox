@@ -189,7 +189,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
 
         public static string CalculateCrc32(string textString)
         {
-            Crc32 crc = new Crc32();
+			Crc32 crc = new Crc32();
 			int num = 0;
             byte[] bArray = Encoding.UTF8.GetBytes(textString);
 			string result;
@@ -234,6 +234,17 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
             return result;
         }
 
+        // Just incase we need something with less clash
+        public static string CalculateSHA1(string textString)
+        {
+            var sha1 = System.Security.Cryptography.SHA1.Create();
+
+            byte[] buf = System.Text.Encoding.UTF8.GetBytes(textString);
+            byte[] hash = sha1.ComputeHash(buf, 0, buf.Length);
+            var hashstr = System.BitConverter.ToString(hash).Replace("-", "");
+
+            return hashstr;
+        }
 
 		static void PurgeTempTexture()
         {
@@ -805,7 +816,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                                     NormalTexturesTop.Remove(key);
                                 }
 
-                                NormalTexturesTop.Add(key, new ModTextureEntry(path2));
+                                NormalTexturesTop.Add(key, new ModTextureEntry(path2, true));
                             }
                             else if (fileNameWithoutExtension.ToLower().Contains("_side"))
                             {
@@ -816,7 +827,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                                     NormalTexturesSide.Remove(key);
                                 }
 
-                                NormalTexturesSide.Add(key, new ModTextureEntry(path2));
+                                NormalTexturesSide.Add(key, new ModTextureEntry(path2, true));
                             }
                             else if (fileNameWithoutExtension.ToLower().Contains("_bottom"))
                             {
@@ -827,7 +838,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                                     NormalTexturesBottom.Remove(key);
                                 }
 
-                                NormalTexturesBottom.Add(key, new ModTextureEntry(path2));
+                                NormalTexturesBottom.Add(key, new ModTextureEntry(path2, true));
                             }
                             else
                             {
@@ -849,7 +860,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                                     {
                                         stages.Remove(stage);
                                     }
-                                    stages.Add(stage, new ModTextureEntry(path2));
+                                    stages.Add(stage, new ModTextureEntry(path2, true));
 
                                 }
                                 else
@@ -859,7 +870,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                                         NormalTexturesAll.Remove(key);
                                     }
 
-                                    NormalTexturesAll.Add(fileNameWithoutExtension, new ModTextureEntry(path2));
+                                    NormalTexturesAll.Add(fileNameWithoutExtension, new ModTextureEntry(path2, true));
                                 }
                             }
                         }
@@ -1174,11 +1185,32 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures
                 return filePath;
             }
 
-			public ModTextureEntry(string filePath)
+			public ModTextureEntry(string filePath, bool isNormalMap = false)
             {
                 this.filePath = filePath;
                 texture = new Texture2D(2, 2, TextureFormat.ARGB32, false);
                 texture.LoadImage(File.ReadAllBytes(filePath));
+
+                if (isNormalMap)
+                {
+					//Clear Blue Channel
+					//Write Red Channel to Alpha
+					//Clear Red Channel
+
+                    var ColourArray = texture.GetPixels();
+
+                    for (int i = 0; i < ColourArray.Length; i++)
+					{
+						ColourArray[i].a = ColourArray[i].r;
+						ColourArray[i].r = ColourArray[i].g;
+						ColourArray[i].b = ColourArray[i].g;
+					}
+
+                    texture.SetPixels(ColourArray);
+                    texture.Apply();
+
+				}
+
 
                 if (texture.width != texture.height)
                 {

@@ -68,6 +68,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\APIInstance.cs" />
+    <Compile Include="Events.cs" />
+    <Compile Include="EventsInstance.cs" />
     <Compile Include="Features\CustomBlockTextures\HD\SetUVOnCubeToTerrainIndex_HD.cs" />
     <Compile Include="Features\CustomBlockTextures\HD\SetUVOnCubeToTerrainIndex_SD.cs" />
     <Compile Include="Features\CustomBlockTextures\Patches\SetUVOnCubeToTerrainIndex.cs" />
@@ -75,7 +78,9 @@
     <Compile Include="Features\CustomBlockTextures\TerrainStitcher.cs" />
     <Compile Include="Features\CustomBlockTextures\XML\TextureSlotMapping.cs" />
     <Compile Include="Features\CustomBlockTextures\XML\TextureSlotRegistry.cs" />
+    <Compile Include="Features\EventSystem\EventRegistration.cs" />
     <Compile Include="ModdersGearboxMain.cs" />
+    <Compile Include="Patch\WorldStatePatch.cs" />
     <Compile Include="plugin_petercashel_ModdersGearbox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\Image\BitMap.cs" />
@@ -99,6 +104,12 @@
   <ItemGroup>
     <Folder Include="Features\TerrainGen_BlockReplacement\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\petercashel.ModdersGearboxAPI\petercashel.ModdersGearboxAPI.csproj">
+      <Project>{37e79150-1cc8-4a86-aa3b-856ad2f1fef9}</Project>
+      <Name>petercashel.ModdersGearboxAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Debug (
@@ -112,18 +123,21 @@ if %25ComputerName%25 == PETERCASHEL-PC (
 
 	if $(ConfigurationName) == Release (
 		copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll" /Y
+		copy petercashel.ModdersGearboxAPI.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\petercashel.ModdersGearboxAPI.dll" /Y
 	)
 
 	if $(ConfigurationName) == Debug (
 		copy plugin_petercashel.ModdersGearbox.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll" /Y
 		copy plugin_petercashel.ModdersGearbox.pdb "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.pdb" /Y
 		copy plugin_petercashel.ModdersGearbox.dll.mdb "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\plugin_petercashel.ModdersGearbox.dll.mdb" /Y
+		copy petercashel.ModdersGearboxAPI.dll "C:\Users\Peter\AppData\Local\ProjectorGames\FortressCraft\Mods\petercashel.ModdersGearbox\1\petercashel.ModdersGearboxAPI.dll" /Y
 	)
 
 	if $(ConfigurationName) == DebugWorkshop (
 		copy plugin_petercashel.ModdersGearbox.dll "M:\SteamLibrary\steamapps\workshop\content\254200\1548137276\plugin_petercashel.ModdersGearbox.dll" /Y
 		copy plugin_petercashel.ModdersGearbox.pdb "M:\SteamLibrary\steamapps\workshop\content\254200\1548137276\plugin_petercashel.ModdersGearbox.pdb" /Y
 		copy plugin_petercashel.ModdersGearbox.dll.mdb "M:\SteamLibrary\steamapps\workshop\content\254200\1548137276\plugin_petercashel.ModdersGearbox.dll.mdb" /Y
+		copy petercashel.ModdersGearboxAPI.dll "M:\SteamLibrary\steamapps\workshop\content\254200\1548137276\petercashel.ModdersGearboxAPI.dll" /Y
 	)
 
 )</PostBuildEvent>

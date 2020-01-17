@@ -1,0 +1,16 @@
+{
+  "petercashel.ModdersGearboxAPI": "petercashel.ModdersGearboxAPI.yml",
+  "petercashel.ModdersGearboxAPI.API": "petercashel.ModdersGearboxAPI.API.yml",
+  "petercashel.ModdersGearboxAPI.API.APIReady": "petercashel.ModdersGearboxAPI.API.yml",
+  "petercashel.ModdersGearboxAPI.API.Instance": "petercashel.ModdersGearboxAPI.API.yml",
+  "petercashel.ModdersGearboxAPI.Attributes": "petercashel.ModdersGearboxAPI.Attributes.yml",
+  "petercashel.ModdersGearboxAPI.Attributes.EventHandlersAttribute": "petercashel.ModdersGearboxAPI.Attributes.EventHandlersAttribute.yml",
+  "petercashel.ModdersGearboxAPI.Attributes.EventHandlersAttribute.#ctor": "petercashel.ModdersGearboxAPI.Attributes.EventHandlersAttribute.yml",
+  "petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents": "petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents.yml",
+  "petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents.IntermodComm": "petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents.yml",
+  "petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute": "petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.yml",
+  "petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.#ctor(petercashel.ModdersGearboxAPI.Attributes.SubscribableEvents)": "petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.yml",
+  "petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.value": "petercashel.ModdersGearboxAPI.Attributes.SubscribeEventAttribute.yml",
+  "petercashel.ModdersGearboxAPI.IAPIInstance": "petercashel.ModdersGearboxAPI.IAPIInstance.yml",
+  "petercashel.ModdersGearboxAPI.IAPIInstance.SendIntermodComms(System.String,System.String,System.Object)": "petercashel.ModdersGearboxAPI.IAPIInstance.yml"
+}

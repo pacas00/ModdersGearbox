@@ -1,0 +1,75 @@
+{
+	"metadata": [
+		{
+			"src": [
+				{
+					"files": [
+						"*.csproj"
+					],
+					"cwd": "../",
+					"exclude": [
+						"**/obj/**",
+						"**/bin/**",
+						"_site/**"
+					]
+				}
+			],
+			"dest": "api"
+		}
+	],
+	"build": {
+			"globalMetadata": {
+				"_appTitle": "Modder's Gearbox API",
+				"_appFooter": "&#0169; 2019 Peter Cashel, for the FortressCraft Modding Community",
+				"_appLogoPath": "images/LogoBox48.png",
+				"_enableSearch": "true"
+			},
+		"content": [
+			{
+				"files": [
+					"api/**.yml",
+					"api/index.md"
+				]
+			},
+			{
+				"files": [
+					"api/*.md",
+					"articles/**.md",
+					"toc.yml",
+					"*.md"
+				],
+				"exclude": [
+					"obj/**",
+					"_site/**"
+				]
+			}
+		],
+		"resource": [
+			{
+				"files": [
+					"images/**"
+				],
+				"exclude": [
+					"obj/**",
+					"_site/**"
+				]
+			}
+		],
+		"overwrite": [
+			{
+				"files": [
+					"apidoc/**.md"
+				],
+				"exclude": [
+					"obj/**",
+					"_site/**"
+				]
+			}
+		],
+		"dest": "../_site",
+		"template": [
+			"default"
+		],
+		"postProcessors": [ "ExtractSearchIndex","SitemapGenerator" ]
+	}
+}

@@ -25,7 +25,7 @@ namespace plugin_petercashel_ModdersGearbox.Features.CustomBlockTextures.Patches
 
 		static void Postfix(SurvivalDigScript __instance)
 		{
-            if (bTexturesSet || !TerrainStitcher.bNeedsToStitch)
+            if (bTexturesSet || (!TerrainStitcher.bNeedsToStitch && !TerrainStitcher.bOverrideSetUVCalls))
             {
                 return;
             }
